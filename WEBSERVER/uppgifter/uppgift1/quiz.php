@@ -1,5 +1,6 @@
 <?php 
 session_start(); 
+include "questions.php";
 ?>
 
 <!DOCTYPE html>
@@ -14,11 +15,20 @@ session_start();
 
 <body>
     <?php include"header.php"?>
-    <form action="answers.php" method="post" class="main-form">
-        <h2>Skriv in ditt namn och börja quizet!!!</h2>
-        <label for="name">Name:</label>
-        <input type="text" name="name">
-        <input type="submit">
+    
+    <form action="results.php" method="post" class="main-form">
+        <?php for($i=0; $i<count($questions); $i++)
+        {
+        echo '<div class="question" id="q'.$i.'">';
+        echo $questions[$i][0];
+        for($ii=1; $ii<count($questions[$i])-1; $ii++)
+        {
+        echo '<br><label for="">'.$questions[$i][$ii].'</label>';
+        echo '<input type="radio" name="q'.$i.'">';
+        }
+        echo '</div>';
+        }?>
+
     </form>
 
 
