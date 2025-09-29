@@ -17,13 +17,13 @@ session_start();
 
 <body>
     <?php include"header.php"?>
-    
+    <div class="conatiner">
     <form action="quiz.php" method="post" class="main-form">
         <h2 id="title   ">Skriv in ditt namn och börja quizet!!!</h2>
             <label for="name">Namn:</label>
             <input type="text" name="name">
             <input id="submit" type="submit" value="Börja">
     </form>
-    
+    </div>
 </body>
 </html>

@@ -1,6 +1,10 @@
 <?php 
 session_start(); 
 include "questions.php";
+
+if (isset($_POST['name'])) {
+    $_SESSION['name'] = $_POST['name'];
+}
 ?>
 
 <!DOCTYPE html>
@@ -18,6 +22,7 @@ include "questions.php";
 <body>
     <?php include"header.php"?>
     
+    <div class="container">
     <form action="results.php" method="post" class="main-form">
         <?php for($i=0; $i<count($questions); $i++)
         {
@@ -42,9 +47,8 @@ include "questions.php";
         }?>
 
         <input type="submit" value="Rätta">
-
     </form>
-
+    </div>
 
 </body>
 </html>
