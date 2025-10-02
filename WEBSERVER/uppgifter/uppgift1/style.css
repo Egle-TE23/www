@@ -1,8 +1,15 @@
 *{
     margin: 0;
+    font-family:Comic Sans MS, Comic Sans;
+}
+body{
+    height:100vh;
+    width:100vw;
+    background-image: linear-gradient(yellow,violet);   
 }
 #header{
-    background-color: aqua;
+    background-color: yellow;
+    color: blueviolet;
     padding: 10px;
     text-align: center;
 }
@@ -11,4 +18,42 @@
 }
 .question.active{
     display: block;
+}
+.container{
+    text-align: center;
+    margin: 10px;
+    font-size: 20px;
+}
+.options{
+    display: grid;
+    margin: 0px auto;
+    grid-template-columns: auto auto;
+    justify-content:center;
+}
+.options>label{
+    padding: 10px 50px;
+    margin: 10px;
+    background-color: lightgoldenrodyellow;
+    white-space: nowrap;
+}
+.radio{
+    height: 25px;
+    width: 25px;
+    vertical-align: middle;
+    margin-right:10px;
+}
+button{
+    font-size: large;
+    margin: 10px;
+    background-color: blueviolet;
+    color: yellow;
+}
+
+.submit{
+    font-size: large;
+    background-color: blueviolet;
+    color: yellow;
+}
+#submit{
+    margin-top: 200px;
 }
