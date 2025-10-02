@@ -3,9 +3,8 @@
     font-family:Comic Sans MS, Comic Sans;
 }
 body{
-    height:100vh;
-    width:100vw;
-    background-image: linear-gradient(yellow,violet);   
+    background-image: linear-gradient(yellow,violet,blueviolet);
+    background-size: cover !important;
 }
 #header{
     background-color: yellow;
@@ -33,7 +32,9 @@ body{
 .options>label{
     padding: 10px 50px;
     margin: 10px;
-    background-color: lightgoldenrodyellow;
+    background-image: linear-gradient(to bottom right, rgb(255, 255, 169), rgb(255, 222, 151));
+    border: 4px, double, rgb(231, 170, 38);
+    border-radius: 50%;
     white-space: nowrap;
 }
 .radio{
@@ -42,18 +43,22 @@ body{
     vertical-align: middle;
     margin-right:10px;
 }
-button{
+button,.submit{
     font-size: large;
     margin: 10px;
     background-color: blueviolet;
     color: yellow;
 }
-
-.submit{
-    font-size: large;
-    background-color: blueviolet;
-    color: yellow;
+a{
+    text-decoration: none;
+    color: blueviolet;
 }
-#submit{
-    margin-top: 200px;
+
+@media (max-width: 800px) {
+  .options{
+    display: grid;
+    margin: 0px auto;
+    grid-template-columns:auto;
+    justify-content:center;
+}
 }

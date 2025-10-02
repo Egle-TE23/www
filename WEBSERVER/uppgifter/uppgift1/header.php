@@ -1,3 +1,3 @@
 <div id="header">
-    <h1>THE SUPER COOL QUIZZZZZ tm</h1>
+    <h1><a href="welcome.php">THE SUPER COOL QUIZZZZZ tm</a></h1>
 </div>

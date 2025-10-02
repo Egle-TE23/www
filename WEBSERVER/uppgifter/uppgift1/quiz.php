@@ -43,10 +43,12 @@ if (isset($_POST['name'])) {
          if($i<count($questions)-1){
             echo '<button onclick="Next('.$i.')" type="button";>Nästa</button>';
         }
+        if ($i==count($questions)-1){
+            echo'<input class="submit" id="submit" type="submit" value="Rätta">';
+        }
         echo '</div>';
         }?>
 
-        <input class="submit" id="submit" type="submit" value="RÄTTA">
     </form>
     </div>
 

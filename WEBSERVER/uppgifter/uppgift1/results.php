@@ -43,7 +43,12 @@ for($i=0; $i<count($questions); $i++){
 
     <div class="container">
     <?php
-    echo "<h4>Grattis ". htmlspecialchars($name)." du fick ".$score."/".$total." rätt</h4>";
+    if($score==0){echo "<h4>Ajsan bajsan, ". htmlspecialchars($name)." du fick ".$score."/".$total."... inte ens en? ojsan</h4>";
+    }
+    else if($score<$total/2){echo "<h4>Ajsan, ". htmlspecialchars($name)." du fick ".$score."/".$total." rätt... kunde ha vart bättre.</h4>";}
+    else if($score==$total){echo "<h4>WOW PERFEKT! ". htmlspecialchars($name)." du fick ".$score."/".$total." rätt!!!!</h4>";}
+    else{echo "<h4>Bra jobbat! ". htmlspecialchars($name)." du fick ".$score."/".$total." rätt!!</h4>";}
+    
     foreach($results as $result){
         echo "<br><h5>".$result."</h5>";
     }
