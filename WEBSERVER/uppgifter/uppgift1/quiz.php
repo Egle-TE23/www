@@ -1,6 +1,6 @@
 <?php 
 session_start(); 
-include "questions.php";
+require "questions.php";
 
 if (isset($_POST['name'])) {
     $_SESSION['name'] = $_POST['name'];

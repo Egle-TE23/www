@@ -3,8 +3,9 @@
     font-family:Comic Sans MS, Comic Sans;
 }
 body{
+    background-size: cover;
     background-image: linear-gradient(yellow,violet,blueviolet);
-    background-size: cover !important;
+    min-height: 100vh;
 }
 #header{
     background-color: yellow;
@@ -25,7 +26,7 @@ body{
 }
 .options{
     display: grid;
-    margin: 0px auto;
+    margin: 0 auto;
     grid-template-columns: auto auto;
     justify-content:center;
 }
@@ -33,7 +34,7 @@ body{
     padding: 10px 50px;
     margin: 10px;
     background-image: linear-gradient(to bottom right, rgb(255, 255, 169), rgb(255, 222, 151));
-    border: 4px, double, rgb(231, 170, 38);
+    border: 3px, double, rgb(231, 170, 38);
     border-radius: 50%;
     white-space: nowrap;
 }
@@ -57,8 +58,25 @@ a{
 @media (max-width: 800px) {
   .options{
     display: grid;
-    margin: 0px auto;
+    margin: 0 auto;
     grid-template-columns:auto;
     justify-content:center;
 }
+}
+.results{
+    display: grid;
+    grid-template-columns: auto;
+    justify-content: center;
+}
+.results>h5{
+    padding: 10px 50px;
+    margin: 10px;
+    background-image: linear-gradient(to bottom right, rgb(255, 255, 169), rgb(255, 222, 151));
+    border: 3px, double, rgb(231, 170, 38);
+    border-radius: 50%;}
+
+.againbtn{
+    background-color: yellow;
+    margin: 50px;
+    margin-bottom: 100px;
 }
