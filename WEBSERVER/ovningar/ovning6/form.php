@@ -1,17 +1,9 @@
 <?php
 session_start();
+$errors = $_SESSION['errors'] ?? [];
+$old = $_SESSION['old'] ?? [];
 
-$error = "";
-$succes ="";
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $capital = "/^[A-Z][a-zA-Z]*$/";
-
-    if (preg_match($capital,$_POST["fname"])==0) {
-        $error = "name must start with capital letter!";
-    } else {
-        $succes = "all good";
-    }
-}
+unset($_SESSION['error'], $_SESSION['old']);
 ?>
 
 <!DOCTYPE html>
@@ -22,16 +14,34 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <title>Form Example</title>
 </head>
 <body>
-    <form action="form.php" method="post">
+    <form action="try.php" method="post">
         <input type="text" name="fname">
         <label for="fname">NAME</label>
-        <span style="color:red;"><?php echo $error; ?></span>
         <br>
         <input type="text" name="lname">
         <label for="fname">LAST NAME</label>
         <br>
-        <input type="name" name="email">
+        <input type="text" name="email">
         <label for="fname">EMAIL</label>
+        <br>
+        <button type="submit">CLICK</button>
+    </form>
+    <?php
+    if (empty($error)){
+    echo "alll goooddd";
+    }
+    else{
+    foreach ($error as $err) {
+        echo "<p style='color:red;'>$err</p>";
+    }} 
+    ?>
+    <h1>2</h1>
+    <form action="2.php" method="post">
+        <input type="text" name="username">
+        <label for="username">username</label>
+        <br>
+        <input type="text" name="password">
+        <label for="password">password</label>
         <br>
 
         <button type="submit">CLICK</button>
