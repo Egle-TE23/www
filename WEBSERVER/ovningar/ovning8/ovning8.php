@@ -25,11 +25,14 @@ echo "<br>";
 echo "Hej och välkommen! Dagens datum är ".date("y:m:d")." och klockan är ". date("H:i:sa");
 echo "<br>";
 
+echo "Hej och välkommen! Idag är det " . $customFormatter->format(new DateTime()) . ".";
+
+
 echo printDate($customFormatter, $now);
 
 function printDate($customFormatter, $now){
-    return "Hej och välkommen! Idag är det " . $customFormatter->format($now) . ".";
-}   
+    return "Hej och välkommen! Idag är det " . $customFormatter->format(new DateTime()) . ".";
+}
 ?>  
 
 </body>
