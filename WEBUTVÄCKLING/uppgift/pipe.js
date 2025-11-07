@@ -1,92 +1,95 @@
 const canvas = document.getElementById("myCanvas");
 const ctx = canvas.getContext("2d");
-var x = 100;
-var y = 100;
-var width = 20;
-var height = 20;
-const speed = 7;
-var direction =3;
-var color ="#ff0000ff";
+
+const pipes = [];
+const speed = 5;
+const amount =20;
 
 function start(){
-DrawPipe();
-setInterval(update, 10)
-setInterval(randomDirection,100);
-setInterval(newPipe,8000)
+restart();
+setInterval(update, 10); //update interval
 }
 
 function update(){
-DrawPipe();
-Move();
+pipes.forEach(pipe => {
+    pipe.move();
+    pipe.draw();
+    if(Math.random()<=0.02)//chance to change direction
+    {
+        pipe.randomDirection();
+    }
+});
 }
 
-function DrawPipe()
+function restart() //resets canvas and creates new pipes
+{ 
+    ctx.fillStyle = "black";
+    ctx.fillRect(0, 0, canvas.width, canvas.height); 
+    pipes.splice(0,pipes.length)
+    for (let i = 0; i < amount; i++) 
+    {
+        pipes.push(new Pipe());
+    }
+}
+
+class Pipe
 {
-    //ctx.clearRect(0, 0, canvas.width, canvas.height); 
-    ctx.fillStyle = color;
-    ctx.fillRect(x, y, width, height);
+ constructor(){
+    this.x = Math.random() * (canvas.width );
+    this.y = Math.random() * (canvas.height);
+    this.diamater =10;
+    this.direction = Math.floor(Math.random() * 4) + 1; //choses 1 of 4 directions
+    this.color = this.randomColor();
+    //this.color = "#" + Math.floor(Math.random()*16777215).toString(16); //stolen color code... kinda works?
+ }
+
+draw()
+{
+    ctx.fillStyle = this.color;
+    ctx.fillRect(this.x, this.y, this.diamater, this.diamater);
 }
 
-function Move(){
-    if(direction==1 && (x-speed >= 5)){
-        x-=speed;
+ move(){
+    if(this.direction==1 && (this.x-speed >= 5)){
+        this.x-=speed;
     }
-    else if(direction == 2 && (x+speed <= canvas.width-width-5)){
-        x+=speed;
+    else if(this.direction == 3 && (this.x+speed <= canvas.width-this.diamater-5)){
+        this.x+=speed;
     }
-    else if(direction == 3 && (y-speed >= 5)){
-        y-=speed;
+    else if(this.direction == 2 && (this.y-speed >= 5)){
+        this.y-=speed;
     }
-    else if(direction == 4 && (y+speed <= canvas.height-height-5)){
-        y+=speed;
-    }
-    else{
-    //samma som randomDirection utan if check
-    if(direction==1||direction==2){
-        direction = Math.floor(Math.random() * 2) + 3;
-        console.log(direction);
+    else if(this.direction == 4 && (this.y+speed <= canvas.height-this.diamater-5)){
+        this.y+=speed;
     }
     else{
-        direction = Math.floor(Math.random() * 2) + 1;
-    }
+        this.randomDirection();
     }
 }
 
-function randomDirection(){
-    if((Math.floor(Math.random() * 5) +1)==1){
-        if(direction==1||direction==2){
-            direction = Math.floor(Math.random() * 2) + 3;
-            console.log(direction);
+randomDirection()
+{
+        if(this.direction==4){
+            if((Math.floor(Math.random()) +1)==1){
+                this.direction=1;
+            }
+            else{
+            this.direction--;
+            }
         }
         else{
-            direction = Math.floor(Math.random() * 2) + 1;
+            if((Math.floor(Math.random()) +1)==1){
+                this.direction++;
+            }
+            else{
+            this.direction--;
+            }
         }
 }
+randomColor(){
+const hue = Math.floor(Math.random() * 360);
+  const saturation = 90 + Math.random() * 10;
+  const lightness = 45 + Math.random() * 10;  
+  return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
 }
-
-function randomTime(){
-    return Math.floor(Math.random() * 1000) + 100;
-}
-
-function newPipe(){
-    var letters = '0123456789ABCDEF';
-    var newColor = '#';
-    for (var i = 0; i < 6; i++) {
-        newColor += letters[Math.floor(Math.random() * 16)];
-    }
-    color=newColor;
-    x=Math.floor(Math.random() * canvas.width-width);
-    y=Math.floor(Math.random() * canvas.height-height);
-}
-
-function restart(){
-    ctx.clearRect(0, 0, canvas.width, canvas.height); 
-    var letters = '0123456789ABCDEF';
-    var newColor = '#';
-    for (var i = 0; i < 6; i++) {
-        newColor += letters[Math.floor(Math.random() * 16)];
-    }
-    color=newColor;
-    x=Math.floor(Math.random() * canvas.width-width);
-    y=Math.floor(Math.random() * canvas.height-height);
 }
