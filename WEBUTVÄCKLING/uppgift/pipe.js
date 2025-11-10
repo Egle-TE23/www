@@ -31,17 +31,14 @@ function update(){
 //ctx.fillStyle = "black";
 //ctx.fillRect((Math.random() * (canvas.width )), (Math.random() * (canvas.height)), 10, 10); 
 pipes.forEach(pipe => {
-if (mouse.inside) {
-      pipe.follow(mouse.x, mouse.y);
-    } else {
-      pipe.move();
-      if (Math.random() <= 0.02) {
-        pipe.randomDirection();
-      }
-    }
+    if (mouse.inside) pipe.follow(mouse.x, mouse.y);
+    pipe.move();
     pipe.draw();
+    if (Math.random() <= 0.02) {
+        pipe.randomDirection();
+    }
 });
-}
+};
 
 function restart() //resets canvas and creates new pipes
 { 
