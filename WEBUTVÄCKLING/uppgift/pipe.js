@@ -5,19 +5,41 @@ const pipes = [];
 const speed = 5;
 const amount =20;
 
+let mouse = { x: null, y: null, inside: false };
+
+canvas.addEventListener("mousemove", (e) => {
+  const rect = canvas.getBoundingClientRect();
+  mouse.x = e.clientX - rect.left;
+  mouse.y = e.clientY - rect.top;
+  mouse.inside =
+    mouse.x >= 0 &&
+    mouse.x <= canvas.width &&
+    mouse.y >= 0 &&
+    mouse.y <= canvas.height;
+});
+
+canvas.addEventListener("mouseleave", () => {
+  mouse.inside = false;
+});
+
 function start(){
 restart();
-setInterval(update, 10); //update interval
+setInterval(update, 1); //update interval
 }
 
 function update(){
+//ctx.fillStyle = "black";
+//ctx.fillRect((Math.random() * (canvas.width )), (Math.random() * (canvas.height)), 10, 10); 
 pipes.forEach(pipe => {
-    pipe.move();
-    pipe.draw();
-    if(Math.random()<=0.02)//chance to change direction
-    {
+if (mouse.inside) {
+      pipe.follow(mouse.x, mouse.y);
+    } else {
+      pipe.move();
+      if (Math.random() <= 0.02) {
         pipe.randomDirection();
+      }
     }
+    pipe.draw();
 });
 }
 
@@ -35,8 +57,8 @@ function restart() //resets canvas and creates new pipes
 class Pipe
 {
  constructor(){
-    this.x = Math.random() * (canvas.width );
-    this.y = Math.random() * (canvas.height);
+    this.x = Math.random() * (canvas.width-600) +300;
+    this.y = Math.random() * (canvas.height-300) +150;
     this.diamater =10;
     this.direction = Math.floor(Math.random() * 4) + 1; //choses 1 of 4 directions
     this.color = this.randomColor();
@@ -67,6 +89,17 @@ draw()
     }
 }
 
+follow(targetX, targetY) {
+    const dx = targetX - this.x;
+    const dy = targetY - this.y;
+    const dist = Math.sqrt(dx * dx + dy * dy);
+
+    if (dist > 1) {
+      this.x += (dx / dist) * (speed * 0.5);
+      this.y += (dy / dist) * (speed * 0.5);
+    }
+  }
+
 randomDirection()
 {
         if(this.direction==4){
@@ -87,8 +120,8 @@ randomDirection()
         }
 }
 randomColor(){
-const hue = Math.floor(Math.random() * 360);
-  const saturation = 90 + Math.random() * 10;
+const hue = Math.floor(Math.random()*360);
+  const saturation = 100 + Math.random() * 10;
   const lightness = 45 + Math.random() * 10;  
   return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
 }

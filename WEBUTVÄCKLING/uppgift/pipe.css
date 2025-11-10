@@ -1,3 +1,15 @@
 #myCanvas{
     border: 1px solid black;
 }
+body{
+    background-color: black;
+}
+#all{
+    width: fit-content;
+    margin: auto;
+    text-align: center;
+}
+h1{
+    color: white;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
