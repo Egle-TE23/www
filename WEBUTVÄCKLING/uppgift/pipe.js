@@ -2,8 +2,8 @@ const canvas = document.getElementById("myCanvas");
 const ctx = canvas.getContext("2d");
 
 const pipes = [];
-const speed = 5;
-const amount =20;
+const speed = 3;
+const amount =12;
 
 let mouse = { x: null, y: null, inside: false };
 
@@ -23,12 +23,12 @@ canvas.addEventListener("mouseleave", () => {
 });
 
 function start(){
-restart();
+//restart();
 setInterval(update, 1); //update interval
 }
 
 function update(){
-//ctx.fillStyle = "black";
+ctx.fillStyle = "black";
 //ctx.fillRect((Math.random() * (canvas.width )), (Math.random() * (canvas.height)), 10, 10); 
 pipes.forEach(pipe => {
     if (mouse.inside) pipe.follow(mouse.x, mouse.y);
