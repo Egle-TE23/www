@@ -93,9 +93,9 @@
 
     function isPrime($num){
     if ($num <= 1) {return false;}
-    for ($x = 2; $x < $num; $x++;) {
+    for ($x = 2; $x < $num;) {
         if ($num % $x == 0) {
-            return = false; 
+            return false; 
         }
                 else
         {return true;}

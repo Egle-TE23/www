@@ -2,9 +2,9 @@
 session_start();
 
 $errorMessage = "";
-if (isset($_SESSION["loginError"])) {
-    $errorMessage = $_SESSION["loginError"];
-    unset($_SESSION["loginError"]);
+if (isset($_SESSION["signuperror"])) {
+    $errorMessage = $_SESSION["signuperror"];
+    unset($_SESSION["signuperror"]);
 }
 ?>
 <!DOCTYPE html>
@@ -24,7 +24,7 @@ if (isset($_SESSION["loginError"])) {
             echo "<p id='errormsg'>" . $errorMessage . "</p>";
         }
         ?>
-        <form action="loginlogic.php" method="post">
+        <form action="signuplogic.php" method="post">
             <label for="username">Username</label>
             <input type="text" name="username" id="username">
             <br>
@@ -33,7 +33,7 @@ if (isset($_SESSION["loginError"])) {
             <input type="password" name="password" id="password">
             <br>
             <br>
-            <button type="submit">Login</button>
+            <button type="submit">Sign up</button>
         </form>
     </div>
 

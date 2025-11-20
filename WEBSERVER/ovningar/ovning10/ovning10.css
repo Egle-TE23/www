@@ -1,0 +1,39 @@
+body {
+    background-color: yellow;
+    color: blue;
+    font-weight: bold;
+}
+
+#logindiv {
+    text-align: center;
+    margin: 100px auto;
+    width: fit-content;
+}
+
+input {
+    margin: 10px;
+    background-color: lightyellow;
+}
+
+button {
+    background-color: blue;
+    padding: 5px;
+    border-radius: 10px;
+    color: yellow;
+
+}
+
+#logoutbtn {
+    text-decoration: none;
+    color: yellow;
+}
+
+#welcome {
+    margin: 100px auto;
+    width: fit-content;
+    text-align: center;
+}
+
+#errormsg{
+    color: rgb(198, 106, 0);
+}
