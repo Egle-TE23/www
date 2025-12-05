@@ -1,0 +1,20 @@
+*{
+    margin: 0;
+}
+body{
+    background-color: yellow !important;
+}
+
+
+#header {
+    display: flex;
+    justify-content: space-between; 
+}
+#header > h1{
+    padding: 10px 20px;
+}
+hr{
+color: blueviolet !important;
+opacity: 1;
+border-width: 3px;
+}
