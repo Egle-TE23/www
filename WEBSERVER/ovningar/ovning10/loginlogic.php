@@ -30,5 +30,4 @@ if (password_verify($pass, $res["password"])) {
     $_SESSION["loginError"] = "Wrong username or password";
     header("Location: login.php");
 }
-
 ?>
