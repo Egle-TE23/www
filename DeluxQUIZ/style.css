@@ -4,17 +4,30 @@
 body{
     background-color: yellow !important;
 }
+hr{
+color: blueviolet !important;
+opacity: 1;
+border-width: 3px;
+}
 
 
-#header {
+#header{
     display: flex;
     justify-content: space-between; 
 }
 #header > h1{
     padding: 10px 20px;
 }
-hr{
-color: blueviolet !important;
-opacity: 1;
-border-width: 3px;
+#quiz-display{
+    display: flex;
+    justify-content: space-between; 
+    margin: 20px;
 }
+
+.title{
+    width: fit-content;
+    text-align: center;
+}
+
+
+
