@@ -9,8 +9,12 @@ color: blueviolet !important;
 opacity: 1;
 border-width: 3px;
 }
+a{
+    text-decoration: none;
+    color: black;
+}
 
-
+/*header*/
 #header{
     display: flex;
     justify-content: space-between; 
@@ -18,16 +22,36 @@ border-width: 3px;
 #header > h1{
     padding: 10px 20px;
 }
+
+/*homepage*/
 #quiz-display{
     display: flex;
     justify-content: space-between; 
     margin: 20px;
 }
-
 .title{
     width: fit-content;
     text-align: center;
 }
 
+/*quiz*/
+#quiz_form{
 
+}
+.quiz_img{
+    width: 10rem;
+}
+.quiz_options{
+    display: grid;
+    grid-template-columns: auto auto;
+}
+.quiz_option{
+display: flex;
+justify-content: center;
+align-items: center;
+word-wrap: break-word !important;
+width: 20rem;
+height: 7rem;
+background-color: white;
+}
 
