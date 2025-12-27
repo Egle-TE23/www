@@ -40,23 +40,27 @@ a{
 }
 
 /*quiz*/
-#quiz_form{
-margin: auto;
+#quiz-form{
+width: fit-content;
+margin: 10px auto;
+text-align: center;
 }
-.quiz_img{
-    width: 10rem;
-}
-.quiz_options{
+.quiz-media{
+    height: 15rem; 
+    margin: 10px;
+}           
+.quiz-options{
     display: grid;
     grid-template-columns: auto auto;
 }
-.quiz_option{
+.quiz-option{
 display: flex;
 justify-content: center;
 align-items: center;
 word-wrap: break-word !important;
-width: 20rem;
-height: 7rem;
+width: 15rem;
+height: 6rem;
+margin: 8px;
 background-color: white;
 }
 

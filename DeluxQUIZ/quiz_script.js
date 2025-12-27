@@ -14,9 +14,12 @@ questions.forEach((question, index) => {
     nextBtn.addEventListener('click', () => {
         question.style.display = 'none';
 
-        if (questions[index + 1]) {
+        if (questions[index + 1]) 
+        {
             questions[index + 1].style.display = 'block';
-        } else {
+        } 
+        else 
+        {
             submitBtn.style.display = 'inline-block';
         }
     });
