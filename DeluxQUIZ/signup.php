@@ -2,9 +2,9 @@
 session_start();
 
 $errorMessage = "";
-if (isset($_SESSION["loginError"])) {
-    $errorMessage = $_SESSION["loginError"];
-    unset($_SESSION["loginError"]);
+if (isset($_SESSION["signupError"])) {
+    $errorMessage = $_SESSION["signupError"];
+    unset($_SESSION["signupError"]);
 }
 ?>
 
@@ -27,12 +27,12 @@ if (isset($_SESSION["loginError"])) {
     <?php
     include("header.php");
     ?>
-    <form action="loginlogic.php" method="post" class="login-form">
-        <?php
-        if ($errorMessage != "") {
-            echo "<p id='errormsg'>" . $errorMessage . "</p>";
-        }
-        ?>
+    <form action="signuplogic.php" method="post" class="signup-form">
+        <div class="form-group">
+            <label for="email">Email address</label>
+            <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp"
+                placeholder="Email address">
+        </div>
         <div class="form-group">
             <label for="username">Username</label>
             <input type="text" class="form-control" id="username" name="username" placeholder="Username">
@@ -41,14 +41,18 @@ if (isset($_SESSION["loginError"])) {
             <label for="password">Password</label>
             <input type="password" class="form-control" id="password" name="password" placeholder="Password">
         </div>
-
-        <div class="form-group form-check">
-            <input type="checkbox" class="form-check-input" id="rememberMeCheck">
-            <label class="form-check-label" for="rememberMeCheck">Remember me</label>
+        <div class="form-group">
+            <label for="passwordConfirm">Password</label>
+            <input type="password" class="form-control" id="passwordConfirm" name="passwordConfirm"   placeholder="Confirm password">
         </div>
-        <button type="submit" class="btn btn-primary login-button">Login</button>
-        <div><a href="signup.php" class="login-link">signup instead</a></div>
+        <button type="submit" class="btn btn-primary login-button">Signup</button>
+        <div><a href="login.php" class="login-link">login instead</a></div>
     </form>
+    <?php
+    if ($errorMessage != "") {
+        echo "<p id='errormsg'>" . $errorMessage . "</p>";
+    }
+    ?>
 
 
 

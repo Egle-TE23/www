@@ -3,11 +3,17 @@ session_start();
 
 include('dbconnection.php');
 
-if (isset($_POST["answer"])) {
-    $answer = $_POST["answer"];
+if (isset($_POST["username"])) {
+    $user = $_POST["username"];
+}
+if (isset($_POST["password"])) {
+    $pass = $_POST["password"];
 }
 
-$sql = "SELECT * FROM quizzes WHERE id =?";
+if (!(isset($pass) && isset($user))) {
+    header("Location: login.php");
+}
+$sql = "SELECT * FROM users WHERE username =?";
 $stmt = $dbconn->prepare($sql);
 
 // parameters in array, if empty we could skip the $data-variable
@@ -19,8 +25,9 @@ $res = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if (password_verify($pass, $res["password"])) {
     $_SESSION["user"] = $res["username"];
-    header("Location: welcome.php");
+    header("Location: main.php");
 } else {
     $_SESSION["loginError"] = "Wrong username or password";
     header("Location: login.php");
 }
+?>

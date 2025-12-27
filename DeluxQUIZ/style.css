@@ -13,6 +13,11 @@ a{
     text-decoration: none;
     color: black;
 }
+/*Bootstrap override stuff*/
+.btn-primary{
+    background-color: blueviolet;
+}
+
 
 /*header*/
 #header{
@@ -36,7 +41,7 @@ a{
 
 /*quiz*/
 #quiz_form{
-
+margin: auto;
 }
 .quiz_img{
     width: 10rem;
@@ -55,3 +60,17 @@ height: 7rem;
 background-color: white;
 }
 
+/*login signup*/
+.login-form, .signup-form{
+    width: 25%;
+    margin: auto;
+    padding: 15px;
+    border: solid blueviolet 2px;
+    border-radius: 3px;
+}
+.login-link{
+    color: blueviolet;
+}
+.login-button{
+    margin: 10px auto;
+}
