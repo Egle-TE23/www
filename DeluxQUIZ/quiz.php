@@ -29,11 +29,14 @@ $questions = $stmt->fetchAll(PDO::FETCH_ASSOC);
 </head>
 
 <body>
+    <h1><a href="main.php">LOGO</a></h1>
     <form action="quiz_logic.php" method="post" id="quiz-form">
         <input type="hidden" name="quiz_id" value="<?= $quizId ?>"> <!--store quiz id for submit-->
 
         <?php foreach ($questions as $i => $question): ?>
-            <div class="question" data-index="<?= $i ?>" <?php if ($i !== 0) {echo 'style="display:none"';} ?>>
+            <div class="question" data-index="<?= $i ?>" <?php if ($i !== 0) {
+                  echo 'style="display:none"';
+              } ?>>
                 <?php if ($question['media_type'] && $question['media_path']): ?>
                     <?php if ($question['media_type'] === 'image'): ?>
                         <img src="<?= htmlspecialchars($question['media_path']) ?>" class="quiz-media img-fluid"

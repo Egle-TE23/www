@@ -6,6 +6,7 @@
 ?>
 <div id="header">
 <h1><a href="main.php">LOGO</a></h1>
+<h1><a href="quiz_create.php">+</a></h1>
 <?php
 $username = "login";
 if (isset($_SESSION["user"])) {
