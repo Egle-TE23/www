@@ -29,11 +29,6 @@ if (isset($_SESSION["signupError"])) {
     ?>
     <form action="signuplogic.php" method="post" class="signup-form">
         <div class="form-group">
-            <label for="email">Email address</label>
-            <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp"
-                placeholder="Email address">
-        </div>
-        <div class="form-group">
             <label for="username">Username</label>
             <input type="text" class="form-control" id="username" name="username" placeholder="Username">
         </div>
@@ -42,19 +37,18 @@ if (isset($_SESSION["signupError"])) {
             <input type="password" class="form-control" id="password" name="password" placeholder="Password">
         </div>
         <div class="form-group">
-            <label for="passwordConfirm">Password</label>
-            <input type="password" class="form-control" id="passwordConfirm" name="passwordConfirm"   placeholder="Confirm password">
+            <label for="passwordConfirm">Confirm Password</label>
+            <input type="password" class="form-control" id="passwordConfirm" name="passwordConfirm"
+                placeholder="Confirm password">
         </div>
+        <?php
+        if ($errorMessage != "") {
+            echo "<p id='errormsg'>" . $errorMessage . "</p>";
+        }
+        ?>
         <button type="submit" class="btn btn-primary login-button">Signup</button>
         <div><a href="login.php" class="login-link">login instead</a></div>
     </form>
-    <?php
-    if ($errorMessage != "") {
-        echo "<p id='errormsg'>" . $errorMessage . "</p>";
-    }
-    ?>
-
-
 
 </body>
 

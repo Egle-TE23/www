@@ -55,11 +55,20 @@ function shorten($text, $maxLength = 100)
                     <h5 class="card-title"><?= htmlspecialchars($quiz['title']) ?></h5>
                     <p class="card-text"><?= shorten($quiz['description'], 80) ?></p>
                 </div>
+                
+                <div class="mt-auto m-2 d-flex gap-2">
+                    <a href="quiz.php?id=<?= $quiz['id'] ?>" class="btn btn-primary btn-sm w-100">
+                        Play
+                    </a>
+                    <a href="quiz_edit.php?id=<?= $quiz['id'] ?>" class="btn btn-outline-secondary btn-sm w-100">
+                        Edit
+                    </a>
+                </div>
             </div>
         <?php endforeach; ?>
 
         <div class="card create-card card" style="width: 15rem;">
-            <form action="quiz_create_start.php" method="post" class="create-card-form">
+            <form action="quiz_create.php" method="post" class="create-card-form">
                 <button type="submit" class="create-card-btn card-body">
                     <span class="plus">+</span>
                 </button>

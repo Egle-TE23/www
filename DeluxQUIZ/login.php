@@ -28,11 +28,6 @@ if (isset($_SESSION["loginError"])) {
     include("header.php");
     ?>
     <form action="loginlogic.php" method="post" class="login-form">
-        <?php
-        if ($errorMessage != "") {
-            echo "<p id='errormsg'>" . $errorMessage . "</p>";
-        }
-        ?>
         <div class="form-group">
             <label for="username">Username</label>
             <input type="text" class="form-control" id="username" name="username" placeholder="Username">
@@ -41,11 +36,11 @@ if (isset($_SESSION["loginError"])) {
             <label for="password">Password</label>
             <input type="password" class="form-control" id="password" name="password" placeholder="Password">
         </div>
-
-        <div class="form-group form-check">
-            <input type="checkbox" class="form-check-input" id="rememberMeCheck">
-            <label class="form-check-label" for="rememberMeCheck">Remember me</label>
-        </div>
+        <?php
+        if ($errorMessage != "") {
+            echo "<p id='errormsg'>" . $errorMessage . "</p>";
+        }
+        ?>
         <button type="submit" class="btn btn-primary login-button">Login</button>
         <div><a href="signup.php" class="login-link">signup instead</a></div>
     </form>
