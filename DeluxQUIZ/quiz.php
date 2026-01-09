@@ -1,5 +1,8 @@
 <?php
 include 'dbconnection.php';
+if (!isset($_SESSION)) {
+    session_start();
+}
 
 $quizId = $_GET['id'] ?? 1;//get id from GET in if null 1 (for testing)
 //get quiz by id
@@ -29,7 +32,20 @@ $questions = $stmt->fetchAll(PDO::FETCH_ASSOC);
 </head>
 
 <body>
-    <h1><a href="main.php">LOGO</a></h1>
+    <div id="header">
+        <h1><a href="main.php">LOGO</a></h1>
+        <h1><?=$quiz['title'] ?></h1>
+        <?php
+        $username = "login";
+        if (isset($_SESSION["user"])) {
+            $username = $_SESSION["user"];
+            echo "<h1 class='account'><a href='account.php'>" . $username . "</a></h1>";
+        } else {
+            echo "<h1 class='account'><a href='login.php'>" . $username . "</a></h1>";
+        }
+        ?>
+    </div>
+    <hr>
     <form action="quiz_logic.php" method="post" id="quiz-form">
         <input type="hidden" name="quiz_id" value="<?= $quizId ?>"> <!--store quiz id for submit-->
 
@@ -37,6 +53,7 @@ $questions = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <div class="question" data-index="<?= $i ?>" <?php if ($i !== 0) {
                   echo 'style="display:none"';
               } ?>>
+
                 <?php if ($question['media_type'] && $question['media_path']): ?>
                     <?php if ($question['media_type'] === 'image'): ?>
                         <img src="<?= htmlspecialchars($question['media_path']) ?>" class="quiz-media img-fluid"
@@ -76,7 +93,7 @@ $questions = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </div>
         <?php endforeach; ?>
 
-        <button type="submit" class="btn btn-success" id="submitBtn" style="display:none">Submit Quiz</button>
+        <button type="submit" class="btn btn-success" id="submitBtn" style="display:none" onclick="stop()">Submit Quiz</button>
     </form>
 
 </body>

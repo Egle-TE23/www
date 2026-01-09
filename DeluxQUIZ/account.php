@@ -57,7 +57,7 @@ function shorten($text, $maxLength = 100)
                 </div>
                 
                 <div class="mt-auto m-2 d-flex gap-2">
-                    <a href="quiz.php?id=<?= $quiz['id'] ?>" class="btn btn-primary btn-sm w-100">
+                    <a href="quiz_start.php?id=<?= $quiz['id'] ?>" class="btn btn-primary btn-sm w-100">
                         Play
                     </a>
                     <a href="quiz_edit.php?id=<?= $quiz['id'] ?>" class="btn btn-outline-secondary btn-sm w-100">

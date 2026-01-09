@@ -86,7 +86,7 @@ $quizChunks = array_chunk($quizzes, 3); //för att visa 3 av quizzen i taget
                                             <?= shorten($quiz['description'], 80) ?>
                                         </p>
                                         <div class="mt-auto m-2 d-flex gap-2">
-                                            <a href="quiz.php?id=<?= $quiz['id'] ?>" class="btn btn-primary btn-sm w-100">
+                                            <a href="quiz_start.php?id=<?= $quiz['id'] ?>" class="btn btn-primary btn-sm w-100">
                                                 Play
                                             </a>
                                         </div>

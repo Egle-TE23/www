@@ -80,11 +80,11 @@ function shorten($text, $maxLength = 100)
                         <?php endif; ?>
                     <?php endif; ?>
                     <select class="form-select mb-2 media-type" data-question-id="<?= $question['id'] ?>"
-                        name="questions[<?= $question['id'] ?>][media_type]">
+                        name="questions[<?= $question['id'] ?>][media_type]" >
                         <option value="">No media</option>
-                        <option value="image">Image</option>
-                        <option value="video">Video</option>
-                        <option value="audio">Audio</option>
+                        <option value="image" <?php if($question['media_type']=="image")echo "selected"; ?>>Image</option>
+                        <option value="video"<?php if($question['media_type']=="video")echo "selected"; ?>>Video</option>
+                        <option value="audio"<?php if($question['media_type']=="audio")echo "selected"; ?>>Audio</option>
                     </select>
 
                     <input type="file" class="form-control mb-3 media-input" data-question-id="<?= $question['id'] ?>"
@@ -125,7 +125,7 @@ function shorten($text, $maxLength = 100)
         <div class="edit-quiz-container">
             <?php 
             if($quiz['image']!=null){
-                echo '<img src="'. htmlspecialchars($quiz['image']).'style="width: 100%" class="edit-quiz-div">';
+                echo '<img src="'. htmlspecialchars($quiz['image']).'"style="width: 100%" class="edit-quiz-div">';
             }
             ?>
 
