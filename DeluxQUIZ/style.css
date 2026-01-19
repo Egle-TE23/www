@@ -3,13 +3,24 @@
 }
 
 body {
-    background-color: yellow !important;
+    background-image: linear-gradient(rgb(213, 129, 255),blueviolet);
+    min-height: 1000px;
 }
-
+h1{
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+h5{
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    color: rgb(48, 0, 130)  !important;
+}
+p{
+    color: mediumpurple;
+}
 hr {
     color: blueviolet !important;
     opacity: 1;
     border-width: 3px;
+    margin-bottom: 10px;
 }
 
 a {
@@ -24,13 +35,22 @@ a {
 
 /*Bootstrap override stuff*/
 .btn-primary {
-    background-color: #8a2be2;
+    background-color: hsl(271, 76%, 53%);
+    color: yellow;
+}
+.btn-outline-secondary {
+    color: blueviolet;
+    border: solid 1px gold;
+    background-color: yellow;
 }
 
 /*header*/
 #header {
     display: flex;
     justify-content: space-between;
+    background-color: blueviolet;
+    margin-bottom: 10px;
+
 }
 
 #header>h1 {
@@ -45,6 +65,7 @@ a {
 #header>div {
     padding: 10px 20px;
 }
+
 
 /*homepage*/
 #quiz-display {
@@ -84,7 +105,16 @@ a {
 }
 
 .quiz-display>div {
-    margin: 10px;
+    border-radius: 10px;
+    margin: 20px;
+    background-image: linear-gradient(230deg ,gold,yellow);
+}
+
+.card-img-top {
+    width: 90%;
+    border-radius: 10px;
+    margin-top: 10px !important;
+    margin: auto;
 }
 
 .create-card-form {
@@ -180,9 +210,11 @@ a {
     width: 300px;
     margin: 10px;
 }
-.media-path-div>input{
+
+.media-path-div>input {
     display: inline;
 }
+
 #quiz-options {
     display: grid;
     grid-template-columns: auto auto;
@@ -192,11 +224,13 @@ a {
     display: grid;
     margin: 20px;
 }
-.edit-quiz-container{
+
+.edit-quiz-container {
     margin: 10px;
     margin-right: 20px;
 }
-.edit-quiz-div{
+
+.edit-quiz-div {
     display: block;
     margin: 10px;
 }

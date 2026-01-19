@@ -109,6 +109,7 @@ $quizChunks = array_chunk($quizzes, 3); //för att visa 3 av quizzen i taget
 
 
     </div>
+<?php include("footer.php"); ?>
 </body>
 
 </html>
