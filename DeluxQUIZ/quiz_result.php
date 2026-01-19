@@ -32,7 +32,22 @@ $questions = $stmt->fetchAll(PDO::FETCH_ASSOC);
 </head>
 
 <body>
-    <div id="res-time"></div>
+    <?php include("header.php") ?>
+    <h1> <?= $quiz["title"] ?></h1>
+    <div class="result-div">
+        <h1> <?= $username ?></h1>
+        <div id="quiz-result"></div>
+        <div id="res-time"></div>
+    </div>
+    <div class="leaderboard-div">
+        <h2>Leaderboard</h2>
+        <div>
+            <ul>
+                <li></li>
+            </ul>
+        </div>
+    </div>
+
 </body>
 
 </html>

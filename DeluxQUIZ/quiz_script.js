@@ -66,7 +66,7 @@ function toggleMediaInput(select) {
 var timeElapsed = 0;
 var myTimer = 0;
 
-function start() {
+function Start() {
   myTimer = setInterval(function() {
     timeElapsed += 1;
     document.getElementById("time").innerText = timeElapsed;
@@ -74,11 +74,11 @@ function start() {
 
 }
 
-function stop() {
+function Stop() {
   clearInterval(myTimer);
 }
 
-function reset() {
+function Reset() {
   timeElapsed = 0;
   clearInterval(myTimer);
   document.getElementById("time").innerHTML = timeElapsed;

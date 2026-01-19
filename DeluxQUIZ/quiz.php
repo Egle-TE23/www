@@ -36,12 +36,11 @@ $questions = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <h1><a href="main.php">LOGO</a></h1>
         <h1><?=$quiz['title'] ?></h1>
         <?php
-        $username = "login";
         if (isset($_SESSION["user"])) {
             $username = $_SESSION["user"];
             echo "<h1 class='account'><a href='account.php'>" . $username . "</a></h1>";
         } else {
-            echo "<h1 class='account'><a href='login.php'>" . $username . "</a></h1>";
+            echo "<h1 class='account'><a href='login.php'> login </a></h1>";
         }
         ?>
     </div>
@@ -93,7 +92,7 @@ $questions = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </div>
         <?php endforeach; ?>
 
-        <button type="submit" class="btn btn-success" id="submitBtn" style="display:none" onclick="stop()">Submit Quiz</button>
+        <button type="submit" class="btn btn-success" id="submitBtn" style="display:none" onclick="Stop()">Submit Quiz</button>
     </form>
 
 </body>
