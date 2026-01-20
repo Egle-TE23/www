@@ -36,7 +36,7 @@ $questions = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <h1> <?= $quiz["title"] ?></h1>
     <div class="result-div">
         <h1> <?= $username ?></h1>
-        <div id="quiz-result"></div>
+        <div id="quiz-result-div"></div>
         <div id="res-time"></div>
     </div>
     <div class="leaderboard-div">

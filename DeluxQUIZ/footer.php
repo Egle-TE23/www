@@ -1,6 +1,3 @@
 <div id="footer">
-    <div>
-        <h1>COPYRIGHT MINE</h1>
-    </div>
-    <hr width="80%" class=" m-auto">
+    <hr width="80%" class=" m-auto mt-5">
 </div>

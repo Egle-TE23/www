@@ -75,7 +75,7 @@ function shorten($text, $maxLength = 100)
             </form>
         </div>
     </div>
-    <button class="btn btn-primary center-btn"><a id="logoutbtn" href="logout.php">Logout</a></button>
+    <button class="btn btn-primary center-btn" id="logoutbtn"><a  href="logout.php">Logout</a></button>
 </body>
 
 </html>

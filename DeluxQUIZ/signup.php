@@ -27,7 +27,9 @@ if (isset($_SESSION["signupError"])) {
     <?php
     include("header.php");
     ?>
+        <div style="margin:50px;">
     <form action="signuplogic.php" method="post" class="signup-form">
+        <h1 style="color:blueviolet; width: fit-content;" class="m-auto ">SIGNUP</h1>
         <div class="form-group">
             <label for="username">Username</label>
             <input type="text" class="form-control" id="username" name="username" placeholder="Username">
@@ -49,6 +51,7 @@ if (isset($_SESSION["signupError"])) {
         <button type="submit" class="btn btn-primary login-button">Signup</button>
         <div><a href="login.php" class="login-link">login instead</a></div>
     </form>
+    </div>
 
 </body>
 

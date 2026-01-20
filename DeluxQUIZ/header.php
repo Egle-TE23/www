@@ -4,7 +4,7 @@ if (!isset($_SESSION)) {
 }
 ?>
 <div id="header">
-    <h1><a href="main.php">LOGO</a></h1>
+    <h1><a href="main.php">LO-GO</a></h1>
 
     <div style="display:inline;">
         <h1><a href="quiz_create.php">+</a></h1>

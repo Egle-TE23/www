@@ -27,7 +27,9 @@ if (isset($_SESSION["loginError"])) {
     <?php
     include("header.php");
     ?>
+    <div style="margin:50px;">
     <form action="loginlogic.php" method="post" class="login-form">
+        <h1 style="color:blueviolet; width: fit-content;" class="m-auto ">LOGIN</h1>
         <div class="form-group">
             <label for="username">Username</label>
             <input type="text" class="form-control" id="username" name="username" placeholder="Username">
@@ -44,6 +46,7 @@ if (isset($_SESSION["loginError"])) {
         <button type="submit" class="btn btn-primary login-button">Login</button>
         <div><a href="signup.php" class="login-link">signup instead</a></div>
     </form>
+    </div>
 
 
 

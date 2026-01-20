@@ -6,10 +6,10 @@ $quizId = $_GET['id'] ?? 1;//get id from GET in if null 1 (for testing)
 $stmt = $dbconn->prepare("SELECT * FROM quizzes WHERE id = ?");
 $stmt->execute([$quizId]);
 $quiz = $stmt->fetch(PDO::FETCH_ASSOC);
-//get quiz quesitons
-$stmt = $dbconn->prepare("SELECT * FROM questions WHERE quiz_id = ?");
+
+$stmt = $dbconn->prepare("SELECT * FROM questions WHERE id = ?");
 $stmt->execute([$quizId]);
-$questions = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$question = $stmt->fetch(PDO::FETCH_ASSOC);
 ?>
 
 <!DOCTYPE html>
@@ -29,9 +29,18 @@ $questions = $stmt->fetchAll(PDO::FETCH_ASSOC);
 </head>
 
 <body>
-    <?php include("header.php") ?>
-    <a href="quiz.php?id=<?= $quiz['id'] ?>" class="btn btn-primary" onclick="Start()">Start the quiz!</a>
+    <?php include("header.php") ?>  
+    <div id="start-contianer">
+        <?php if (!empty($quiz['image'])): ?>
+            <img class="card-img-top" id="start-img" src="<?= htmlspecialchars($quiz['image']) ?>" alt="quiz image">
+        <?php endif; ?>
+        <h1><?= htmlspecialchars($quiz['title']) ?></h1>
+        <a href="quiz.php?id=<?= $quiz['id'] ?>" class="btn btn-primary" onclick="Start()">Start the quiz!</a>
+        <div class="leaderboard-div">
 
+
+        </div>
+    </div>
 </body>
 
 </html>

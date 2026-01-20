@@ -1,21 +1,28 @@
 <?php
 session_start();
 include 'dbconnection.php';
+// quiz search
+$search = trim($_GET['q'] ?? '');
+$isSearch = $search !== '';
 
-//quiz search
-$search = $_GET['q'] ?? '';
-$title = "";
-if ($search !== '') //display quizzes that match search
-{
-    $stmt = $dbconn->prepare(" SELECT *FROM quizzes WHERE title LIKE ? ORDER BY id DESC LIMIT 20");
+if ($isSearch) {
+    $title = 'RESULTS FOR "' . htmlspecialchars($search) . '"';
+
+    $stmt = $dbconn->prepare(
+        "SELECT * FROM quizzes WHERE title LIKE ? ORDER BY id DESC LIMIT 20"
+    );
     $stmt->execute(['%' . $search . '%']);
-} else //display most recently created quizes
-{
-    $title = "RECENTLY CREATED QUIZES";
-    $stmt = $dbconn->prepare(" SELECT * FROM quizzes ORDER BY id DESC LIMIT 12");
+} else {
+    $title = "RECENTLY CREATED QUIZZES";
+    $stmt = $dbconn->prepare(
+        "SELECT * FROM quizzes ORDER BY id DESC LIMIT 12"
+    );
     $stmt->execute();
 }
+
 $quizzes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$quizChunks = array_chunk($quizzes, 3);
+
 
 function shorten($text, $maxLength = 100)
 {
@@ -28,8 +35,8 @@ function shorten($text, $maxLength = 100)
     return htmlspecialchars(mb_substr($text, 0, $maxLength)) . '...';
 }
 
-$quizChunks = array_chunk($quizzes, 3); //för att visa 3 av quizzen i taget
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -68,48 +75,62 @@ $quizChunks = array_chunk($quizzes, 3); //för att visa 3 av quizzen i taget
 
         <h1 class="title"><?php echo $title; ?></h1>
 
-        <div id="quizCarousel" class="carousel slide">
-            <div class="carousel-inner">
-                <?php foreach ($quizChunks as $index => $chunk): ?>
-                    <div class="carousel-item <?= $index === 0 ? 'active' : '' ?>">
-                        <div class="d-flex justify-content-center gap-3">
-                            <?php foreach ($chunk as $quiz): ?>
-                                <div class="card" style="width: 15rem;">
-                                    <?php if (!empty($quiz['image'])): ?>
-                                        <img class="card-img-top" src="<?= htmlspecialchars($quiz['image']) ?>" alt="quiz image">
-                                    <?php endif; ?>
-                                    <div class="card-body">
-                                        <h5 class="card-title">
-                                            <?= htmlspecialchars($quiz['title']) ?>
-                                        </h5>
-                                        <p class="card-text">
-                                            <?= shorten($quiz['description'], 80) ?>
-                                        </p>
-                                        <div class="mt-auto m-2 d-flex gap-2">
-                                            <a href="quiz_start.php?id=<?= $quiz['id'] ?>" class="btn btn-primary btn-sm w-100">
-                                                Play
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            <?php endforeach; ?>
-                        </div>
-                    </div>
-                <?php endforeach; ?>
+        <?php if (count($quizzes) === 0): ?>
+
+            <div class="text-center mt-5">
+                <h3>No results found</h3>
+                <?php if ($isSearch): ?>
+                    <p class="no-results"> We couldn't find anything matching "<?= htmlspecialchars($search) ?>"</p>
+                <?php endif; ?>
             </div>
 
-            <button class="carousel-control-prev" type="button" data-bs-target="#quizCarousel" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon"></span>
-            </button>
+        <?php else: ?>
+            <div id="quizCarousel" class="carousel slide">
+                <div class="carousel-inner">
+                    <?php foreach ($quizChunks as $index => $chunk): ?>
+                        <div class="carousel-item <?= $index === 0 ? 'active' : '' ?>">
+                            <div class="d-flex justify-content-center gap-3">
+                                <?php foreach ($chunk as $quiz): ?>
+                                    <div class="card" style="width: 15rem;">
+                                        <?php if (!empty($quiz['image'])): ?>
+                                            <img class="card-img-top" src="<?= htmlspecialchars($quiz['image']) ?>" alt="quiz image">
+                                        <?php endif; ?>
+                                        <div class="card-body">
+                                            <h5 class="card-title">
+                                                <?= htmlspecialchars($quiz['title']) ?>
+                                            </h5>
+                                            <p class="card-text">
+                                                <?= shorten($quiz['description'], 80) ?>
+                                            </p>
+                                            <div class="mt-auto m-2 d-flex gap-2">
+                                                <a href="quiz_start.php?id=<?= $quiz['id'] ?>" class="btn btn-primary btn-sm w-100">
+                                                    Play
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <?php endforeach; ?>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+                <?php if (count($quizzes) > 3): ?>
 
-            <button class="carousel-control-next" type="button" data-bs-target="#quizCarousel" data-bs-slide="next">
-                <span class="carousel-control-next-icon"></span>
-            </button>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#quizCarousel" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon"></span>
+                    </button>
+
+                    <button class="carousel-control-next" type="button" data-bs-target="#quizCarousel" data-bs-slide="next">
+                        <span class="carousel-control-next-icon"></span>
+                    </button>
+                </div>
+            <?php endif; ?>
         </div>
+    <?php endif; ?>
 
 
     </div>
-<?php include("footer.php"); ?>
+    <?php include("footer.php"); ?>
 </body>
 
 </html>

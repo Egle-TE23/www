@@ -33,7 +33,7 @@ $questions = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 <body>
     <div id="header">
-        <h1><a href="main.php">LOGO</a></h1>
+        <h1><a href="main.php">LO-GO</a></h1>
         <h1><?=$quiz['title'] ?></h1>
         <?php
         if (isset($_SESSION["user"])) {
@@ -44,7 +44,7 @@ $questions = $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
         ?>
     </div>
-    <hr>
+
     <form action="quiz_logic.php" method="post" id="quiz-form">
         <input type="hidden" name="quiz_id" value="<?= $quizId ?>"> <!--store quiz id for submit-->
 
