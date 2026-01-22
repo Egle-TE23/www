@@ -15,7 +15,7 @@ h4,
 h5,
 h6,
 a {
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-family: 'Aclonica';
     color: rgb(255, 247, 0);
 }
 
@@ -131,7 +131,7 @@ a {
 
 .quiz-search {
     display: flex;
-    justify-content: center;    
+    justify-content: center;
     margin: 15px auto;
 }
 
@@ -167,13 +167,11 @@ a {
 
 /*account*/
 .quiz-display {
-    width: fit-content;
     margin: auto;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
     /*wow ändrar antal columner responsivt*/
     gap: 20px;
-    width: 100%;
     padding: 10px;
 }
 
@@ -184,6 +182,7 @@ a {
 }
 
 .card-img-top {
+    max-height: 300px;
     width: 90%;
     border-radius: 10px;
     margin-top: 10px !important;
@@ -231,15 +230,22 @@ a {
     justify-content: center;
     margin-top: 20px;
 }
-#start-contianer>h1{
-    margin: 20px;
+
+#start-contianer>h1 {
+    margin: 20px auto;
 }
+
+#start-contianer>h6 {
+    margin: 20px auto;
+}
+
 #start-btn-container>a {
     font-size: x-large;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     padding: 30px;
 }
-#start-img{
+
+#start-img {
     width: auto;
     max-height: 300px;
 }
@@ -296,9 +302,10 @@ a {
 }
 
 .create-questions-div {
-    padding: 5px;
-    border: solid blueviolet 2px;
+    padding: 10px;
     border-radius: 10px;
+    margin: 10px;
+    background-image: linear-gradient(230deg, gold, yellow);
 }
 
 .create-question {
@@ -307,10 +314,59 @@ a {
 }
 
 .create-question-text {
+    -webkit-user-select: none;
+    user-select: none;
     padding: 5px;
     width: 130px;
     border: solid blueviolet 2px;
     border-radius: 8px;
+}
+
+.create-question:hover {
+    color: rgb(105, 21, 183) !important;
+}
+
+.delete-question-btn {
+    background-color: blueviolet;
+    color: yellow;
+    border: none;
+    padding: 5px 12px;
+}
+
+.delete-question-btn:hover {
+    background-color: rgb(105, 21, 183);
+    color: rgb(255, 183, 0);
+    border: none;
+    padding: 5px 12px;
+}
+
+.add-question-btn {
+    color: blueviolet;
+    font-size: 30px;
+    font-weight: bolder;
+    padding: 0px;
+    margin: 5px;
+}
+
+.add-question-btn:hover {
+    color: rgb(105, 21, 183);
+}
+.delete-quiz-btn {
+    border-radius: 10px;
+    border: none;
+    margin: 10px;
+    color: blueviolet;
+    background-image: linear-gradient(230deg, gold, yellow);
+}
+.delete-quiz-btn:hover{
+     background-image: linear-gradient(rgb(255, 183, 0), rgb(255, 247, 0));
+    color:rgb(105, 21, 183);
+}
+.save-quiz-btn{
+    background-color: blueviolet;
+    color: yellow;
+    border: solid 1px rgb(105, 21, 183) ;
+    padding: 5px 12px;
 }
 
 .create-media {

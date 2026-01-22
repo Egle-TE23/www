@@ -15,9 +15,7 @@ if (!$quizId) {
 }
 
 //check if owner
-$stmt = $dbconn->prepare(
-    "SELECT owner_id FROM quizzes WHERE id = ?"
-);
+$stmt = $dbconn->prepare("SELECT owner_id FROM quizzes WHERE id = ?");
 $stmt->execute([$quizId]);
 $quiz = $stmt->fetch(PDO::FETCH_ASSOC);
 

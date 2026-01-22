@@ -3,6 +3,9 @@ include 'dbconnection.php';
 
 $quizId = $_GET['id'] ?? $_POST['quiz_id'] ?? null;
 
+if($quizId == null){
+    header("Location: account.php");
+}
 // quiz title
 if (isset($_POST['title']) && isset($_POST['description'])) {
     $stmt = $dbconn->prepare("UPDATE quizzes SET title = ?, description = ? WHERE id = ?");

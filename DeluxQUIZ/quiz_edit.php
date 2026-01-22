@@ -1,11 +1,26 @@
 <?php
+session_start();
+
 include 'dbconnection.php';
 
-$quizId = $_GET['id'] ?? 1;//get id from GET in if null 1 (for testing)
+$quizId = $_GET['id'] ?? null;
 //get quiz by id
 $stmt = $dbconn->prepare("SELECT * FROM quizzes WHERE id = ?");
 $stmt->execute([$quizId]);
 $quiz = $stmt->fetch(PDO::FETCH_ASSOC);
+
+$stmt = $dbconn->prepare("SELECT * FROM users WHERE id = ?");
+$stmt->execute([$quiz["owner_id"]]);
+$owner = $stmt->fetch(PDO::FETCH_ASSOC);
+
+$stmt = $dbconn->prepare("SELECT * FROM users WHERE username = ?");
+$stmt->execute([$_SESSION["user"]]);
+$current_user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+if($owner['id']!=$current_user['id']){
+    header("Location:main.php");
+}
+
 //get quiz quesitons
 $stmt = $dbconn->prepare("SELECT * FROM questions WHERE quiz_id = ?");
 $stmt->execute([$quizId]);
@@ -30,13 +45,7 @@ function shorten($text, $maxLength = 100)
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= htmlspecialchars($quiz['title']) ?></title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-    <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
-        crossorigin="anonymous"></script>
-    <script defer src="quiz_script.js"></script>
-    <link rel="stylesheet" href="style.css">
+    <?php include("scripts-links.php")?>
 </head>
 
 <body>
@@ -48,14 +57,14 @@ function shorten($text, $maxLength = 100)
                 <?php foreach ($questions as $i => $question): ?>
                     <div class="create-question" data-question-id="<?= $question['id'] ?>">
                         <span onclick="showQuestion(<?= $question['id'] ?>)">
-                            <?= ($i + 1) . '. ' . shorten($question['question_text'], 10) ?>
+                            <?= ($i + 1) . '. ' . shorten($question['question_text'], 15) ?>
                         </span>
 
-                        <button type="submit" form="delete-question-<?= $question['id'] ?>" class="btn btn-sm btn-danger"
+                        <button type="submit" form="delete-question-<?= $question['id'] ?>" class="btn btn-sm  delete-question-btn"
                             onclick="return confirm('Delete this question?')">x</button>
                     </div>
                 <?php endforeach; ?>
-                <button type="submit" class="btn btn-sm btn-primary" form="add-question">+</button>
+                <button type="submit" class="btn btn-sm add-question-btn" form="add-question">+</button>
             </div>
         </div>
 
@@ -123,6 +132,7 @@ function shorten($text, $maxLength = 100)
         </div>
 
         <div class="edit-quiz-container">
+            <h3>Quiz Settings</h3>
             <?php 
             if($quiz['image']!=null){
                 echo '<img src="'. htmlspecialchars($quiz['image']).'"style="width: 100%" class="edit-quiz-div">';
@@ -137,8 +147,8 @@ function shorten($text, $maxLength = 100)
             <textarea class="form-control edit-quiz-div" name="description" placeholder="Quiz Description"
                 rows="4"><?= htmlspecialchars($quiz['description']) ?></textarea>
 
-            <input type="submit" class="edit-quiz-div btn btn-primary" value="Save Quiz">
-            <button form="quiz-delete" type="submit" class="edit-quiz-div btn btn-danger"> Delete Quiz </button>
+            <input type="submit" class="edit-quiz-div btn btn-primary save-quiz-btn" value="Save Quiz">
+            <button form="quiz-delete" type="submit" class="edit-quiz-div btn delete-quiz-btn"> Delete Quiz </button>
         </div>
     </form>
 
