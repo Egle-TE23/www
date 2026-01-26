@@ -1,5 +1,5 @@
 <?php
-include 'dbconnection.php'; 
+include 'dbconnection.php';
 session_start();
 
 $quizId = $_GET['id'] ?? null;
@@ -9,8 +9,7 @@ if (!$quizId) {
     exit;
 }
 
-if (!isset($_SESSION['quiz_started']) || $_SESSION['quiz_started'] != $quizId) 
-{
+if (!isset($_SESSION['quiz_started']) || $_SESSION['quiz_started'] != $quizId) {
     header("Location: quiz_start.php?id=" . $quizId);
     exit;
 }
@@ -36,19 +35,13 @@ $questions = $stmt->fetchAll(PDO::FETCH_ASSOC);
 </head>
 
 <body>
-    <div id="header">
-        <h1><a href="main.php">LO-GO</a></h1>
-        <h1><?=$quiz['title'] ?></h1>
-        <?php
-        if (isset($_SESSION["username"])) {
-            $username = $_SESSION["username"];
-            echo "<h1 class='account'><a href='account.php'>" . $username . "</a></h1>";
-        } else {
-            echo "<h1 class='account'><a href='login.php'> login </a></h1>";
-        }
-        ?>
+    <?php include("header.php") ?>
+    <div class="bottom-sticky">
+        <h1><?= $quiz['title'] ?></h1>
+        <div id="timer">0:00</div>
+
     </div>
-    <div id="timer">0:00</div>
+
 
     <form action="quiz_logic.php" method="post" id="quiz-form">
         <input type="hidden" name="time_taken" id="time_taken" value="0"><!--quiz timer-->
@@ -86,9 +79,11 @@ $questions = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <div class="quiz-options">
                     <?php foreach ($choices as $choice): ?>
                         <div class="quiz-option">
-                            <input type="radio" class="form-check-input choice" name="choices[<?= $question['id'] ?>]"
+                            <input class="choice" type="radio" id="choice-<?= $choice['id'] ?>" name="choices[<?= $question['id'] ?>]"
                                 value="<?= $choice['id'] ?>">
-                            <label class="form-check-label"> <?= htmlspecialchars($choice['choice_text']) ?> </label>
+
+                            <label for="choice-<?= $choice['id'] ?>"> <?= htmlspecialchars($choice['choice_text']) ?>
+                            </label>
                         </div>
                     <?php endforeach; ?>
                 </div>
@@ -98,7 +93,8 @@ $questions = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </div>
         <?php endforeach; ?>
 
-        <button type="submit" class="btn btn-success" id="submitBtn" style="display:none" onclick="stopTimer()">Submit Quiz</button>
+        <button type="submit" class="btn btn-success" id="submitBtn" style="display:none" onclick="stopTimer()">Submit
+            Quiz</button>
     </form>
 
 </body>

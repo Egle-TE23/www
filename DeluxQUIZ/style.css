@@ -255,6 +255,7 @@ a {
     max-width: 400px;
     margin: auto;
     text-align: center;
+    padding-bottom: 100px;
 }
 
 .quiz-media {
@@ -269,6 +270,15 @@ a {
 }
 
 .quiz-option {
+    text-align: center;
+}
+
+.quiz-option input[type="radio"] {
+    display: none;
+}
+
+.quiz-option label {
+    font-weight: bold;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -284,9 +294,32 @@ a {
     background-image: linear-gradient(230deg, gold, yellow);
 }
 
-.quiz-option>label {
+.quiz-option label:hover {
+    background-image: linear-gradient(rgb(255, 183, 0), rgb(255, 247, 0));
+}
+
+.quiz-option input[type="radio"]:checked+label {
+    background-image: linear-gradient(rgb(251, 0, 255), hsl(330, 100%, 75%));
+}
+
+.bottom-sticky {
+    display: flex;
+    justify-content: center;
+    position: fixed;
+    bottom: 0;
+    font-size: 2rem;
     font-weight: bold;
-    margin: 10px;
+    color: rgb(255, 250, 198);
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: blueviolet;
+    border: solid 2px rgb(120, 14, 201);
+}
+
+.bottom-sticky>h1,
+.bottom-sticky>div {
+    margin: 10px auto;
 }
 
 /*Edit quiz*/
@@ -352,6 +385,7 @@ a {
 .add-question-btn:hover {
     color: rgb(105, 21, 183);
 }
+
 .delete-quiz-btn {
     border-radius: 10px;
     border: none;
@@ -359,14 +393,16 @@ a {
     color: blueviolet;
     background-image: linear-gradient(230deg, gold, yellow);
 }
-.delete-quiz-btn:hover{
-     background-image: linear-gradient(rgb(255, 183, 0), rgb(255, 247, 0));
-    color:rgb(105, 21, 183);
+
+.delete-quiz-btn:hover {
+    background-image: linear-gradient(rgb(255, 183, 0), rgb(255, 247, 0));
+    color: rgb(105, 21, 183);
 }
-.save-quiz-btn{
+
+.save-quiz-btn {
     background-color: blueviolet;
     color: yellow;
-    border: solid 1px rgb(105, 21, 183) ;
+    border: solid 1px rgb(105, 21, 183);
     padding: 5px 12px;
 }
 
@@ -423,30 +459,11 @@ a {
     font-weight: bold;
 }
 
-#confetti{
+#confetti {
     z-index: -1;
     position: absolute;
     left: 0;
     top: 0;
-}
-
-.bottom-sticky {
-    position: fixed;
-    bottom: 20px;
-    left: 20px;
-    right: 20px;
-    max-width: 500px;
-    margin: auto;
-    background-color: rgba(255, 255, 255, 0.95);
-    padding: 15px 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    z-index: 1000;
-}
-
-.bottom-sticky p {
-    margin: 0;
-    font-size: 0.95rem;
 }
 
 .form-control {
@@ -469,4 +486,3 @@ a {
     font-weight: 600;
     color: blueviolet;
 }
-

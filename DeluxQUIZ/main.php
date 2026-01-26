@@ -7,16 +7,11 @@ $isSearch = $search !== '';
 
 if ($isSearch) {
     $title = 'RESULTS FOR "' . htmlspecialchars($search) . '"';
-
-    $stmt = $dbconn->prepare(
-        "SELECT * FROM quizzes WHERE title LIKE ? ORDER BY id DESC LIMIT 42"
-    );
+    $stmt = $dbconn->prepare("SELECT * FROM quizzes WHERE title LIKE ? ORDER BY id DESC LIMIT 42");
     $stmt->execute(['%' . $search . '%']);
 } else {
     $title = "RECENTLY CREATED QUIZZES";
-    $stmt = $dbconn->prepare(
-        "SELECT * FROM quizzes ORDER BY id DESC LIMIT 24"
-    );
+    $stmt = $dbconn->prepare("SELECT * FROM quizzes ORDER BY id DESC LIMIT 24");
     $stmt->execute();
 }
 
