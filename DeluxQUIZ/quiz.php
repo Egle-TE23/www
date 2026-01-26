@@ -1,10 +1,20 @@
 <?php
-include 'dbconnection.php';
-if (!isset($_SESSION)) {
-    session_start();
+include 'dbconnection.php'; 
+session_start();
+
+$quizId = $_GET['id'] ?? null;
+
+if (!$quizId) {
+    header("Location: main.php");
+    exit;
 }
 
-$quizId = $_GET['id'] ?? 1;//get id from GET in if null 1 (for testing)
+if (!isset($_SESSION['quiz_started']) || $_SESSION['quiz_started'] != $quizId) 
+{
+    header("Location: quiz_start.php?id=" . $quizId);
+    exit;
+}
+
 //get quiz by id
 $stmt = $dbconn->prepare("SELECT * FROM quizzes WHERE id = ?");
 $stmt->execute([$quizId]);
@@ -30,16 +40,18 @@ $questions = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <h1><a href="main.php">LO-GO</a></h1>
         <h1><?=$quiz['title'] ?></h1>
         <?php
-        if (isset($_SESSION["user"])) {
-            $username = $_SESSION["user"];
+        if (isset($_SESSION["username"])) {
+            $username = $_SESSION["username"];
             echo "<h1 class='account'><a href='account.php'>" . $username . "</a></h1>";
         } else {
             echo "<h1 class='account'><a href='login.php'> login </a></h1>";
         }
         ?>
     </div>
+    <div id="timer">0:00</div>
 
     <form action="quiz_logic.php" method="post" id="quiz-form">
+        <input type="hidden" name="time_taken" id="time_taken" value="0"><!--quiz timer-->
         <input type="hidden" name="quiz_id" value="<?= $quizId ?>"> <!--store quiz id for submit-->
 
         <?php foreach ($questions as $i => $question): ?>
@@ -86,7 +98,7 @@ $questions = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </div>
         <?php endforeach; ?>
 
-        <button type="submit" class="btn btn-success" id="submitBtn" style="display:none" onclick="Stop()">Submit Quiz</button>
+        <button type="submit" class="btn btn-success" id="submitBtn" style="display:none" onclick="stopTimer()">Submit Quiz</button>
     </form>
 
 </body>

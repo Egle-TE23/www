@@ -2,7 +2,7 @@
 session_start();
 include 'dbconnection.php';
 
-if (!isset($_SESSION['user'])) {
+if (!isset($_SESSION['username'])) {
     header("Location: login.php");
     exit;
 }
@@ -26,19 +26,20 @@ if (!$quiz) {
 
 //delete
 $dbconn->beginTransaction();
-
-$dbconn->prepare(
-    "DELETE FROM choices WHERE question_id IN
-     (SELECT id FROM questions WHERE quiz_id = ?)"
-)->execute([$quizId]);
-
-$dbconn->prepare(
-    "DELETE FROM questions WHERE quiz_id = ?"
-)->execute([$quizId]);
-
-$dbconn->prepare(
-    "DELETE FROM quizzes WHERE id = ?"
-)->execute([$quizId]);
+//scores
+$dbconn->prepare("DELETE FROM scores WHERE quiz_id = ?")->execute([$quizId]);
+//choices
+$dbconn->prepare( "DELETE FROM choices WHERE question_id IN (SELECT id FROM questions WHERE quiz_id = ?)")->execute([$quizId]);
+//questions
+$dbconn->prepare("DELETE FROM questions WHERE quiz_id = ?")->execute([$quizId]);
+//quiz
+$dbconn->prepare("DELETE FROM quizzes WHERE id = ?")->execute([$quizId]);
+//delete files for quiz
+$dir = "uploads/quiz_$quizId";
+if (is_dir($dir)) {
+    array_map('unlink', glob("$dir/*"));
+    rmdir($dir);
+}
 
 $dbconn->commit();
 

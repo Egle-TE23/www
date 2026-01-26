@@ -5,7 +5,8 @@
 
 body {
     background-image: linear-gradient(rgb(213, 129, 255), blueviolet);
-    min-height: 1000px;
+    min-height: 100vh;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
 }
 
 h1,
@@ -417,6 +418,55 @@ a {
 }
 
 #errormsg {
-    color: blueviolet;
+    color: #ff4444;
     margin: 1px;
+    font-weight: bold;
 }
+
+#confetti{
+    z-index: -1;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+.bottom-sticky {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    right: 20px;
+    max-width: 500px;
+    margin: auto;
+    background-color: rgba(255, 255, 255, 0.95);
+    padding: 15px 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    z-index: 1000;
+}
+
+.bottom-sticky p {
+    margin: 0;
+    font-size: 0.95rem;
+}
+
+.form-control {
+    border-radius: 8px;
+    padding: 10px 12px;
+}
+
+.form-control:focus {
+    border-color: rgb(105, 21, 183);
+    box-shadow: 0 0 0 3px rgba(105, 21, 183, 0.1);
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: blueviolet;
+}
+

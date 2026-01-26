@@ -1,7 +1,12 @@
 <?php
 session_start();
-
 include 'dbconnection.php';
+
+$errorMessage = "";
+if (isset($_SESSION['editError'])) {
+    $errorMessage = $_SESSION['editError'];
+    unset($_SESSION['editError']);
+}
 
 $quizId = $_GET['id'] ?? null;
 //get quiz by id
@@ -14,7 +19,7 @@ $stmt->execute([$quiz["owner_id"]]);
 $owner = $stmt->fetch(PDO::FETCH_ASSOC);
 
 $stmt = $dbconn->prepare("SELECT * FROM users WHERE username = ?");
-$stmt->execute([$_SESSION["user"]]);
+$stmt->execute([$_SESSION["username"]]);
 $current_user = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if($owner['id']!=$current_user['id']){
@@ -151,7 +156,11 @@ function shorten($text, $maxLength = 100)
             <button form="quiz-delete" type="submit" class="edit-quiz-div btn delete-quiz-btn"> Delete Quiz </button>
         </div>
     </form>
-
+    <?php if($errorMessage ): ?>
+    <div class="bottom-sticky">
+        <p id="errormsg"><?= htmlspecialchars($errorMessage) ?></p>
+    </div>
+    <?php endif; ?>
 
     <!-- hidden form for delete quiz button-->
     <form id="quiz-delete" action="quiz_delete.php" method="POST"

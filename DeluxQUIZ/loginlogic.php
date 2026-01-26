@@ -16,15 +16,14 @@ if (!(isset($pass) && isset($user))) {
 $sql = "SELECT * FROM users WHERE username =?";
 $stmt = $dbconn->prepare($sql);
 
-// parameters in array, if empty we could skip the $data-variable
 $data = array($user);
 $stmt->execute($data);
-
 $res = $stmt->fetch(PDO::FETCH_ASSOC);
 
 
 if (password_verify($pass, $res["password"])) {
-    $_SESSION["user"] = $res["username"];
+    $_SESSION["user_id"] = $res["id"];
+    $_SESSION["username"] = $res["username"];
     header("Location: main.php");
 } else {
     $_SESSION["loginError"] = "Wrong username or password";

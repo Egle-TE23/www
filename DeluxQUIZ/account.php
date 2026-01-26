@@ -2,14 +2,19 @@
 session_start();
 include 'dbconnection.php';
 
-//get user py username
-$user = $_SESSION["user"];
+if(!isset($_SESSION["user_id"])){
+    header("Location: login.php");
+    exit;
+}
+
+//get user by username
+$user = $_SESSION["username"];
 $stmt = $dbconn->prepare("SELECT * FROM users WHERE username = ?");
 $stmt->execute([$user]);
 $userId = $stmt->fetch(PDO::FETCH_ASSOC);
 //get quiz by id
 $stmt = $dbconn->prepare("SELECT * FROM quizzes WHERE owner_id = ?");
-$stmt->execute([$userId['id']]);
+$stmt->execute([$_SESSION["user_id"]]);
 $quizzes = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 function shorten($text, $maxLength = 100)

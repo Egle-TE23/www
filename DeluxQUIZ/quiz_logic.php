@@ -2,7 +2,9 @@
 session_start();
 include 'dbconnection.php';
 
-if (!isset($_POST['quiz_id'], $_POST['choices'], $_SESSION['user'])) {
+$timeTaken = (int)($_POST['time_taken'] ?? 0);
+
+if (!isset($_POST['quiz_id'], $_POST['choices'], $_SESSION['user_id'])) {
     header("Location: main.php");
     exit;
 }
@@ -31,11 +33,7 @@ foreach ($questions as $question) {
 
     $selectedChoiceId = (int)$choices[$questionId];
 
-    $stmt = $dbconn->prepare(
-        "SELECT is_correct 
-         FROM choices 
-         WHERE id = ? AND question_id = ?"
-    );
+    $stmt = $dbconn->prepare( "SELECT is_correct FROM choices  WHERE id = ? AND question_id = ?");
     $stmt->execute([$selectedChoiceId, $questionId]);
     $choice = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -48,27 +46,27 @@ foreach ($questions as $question) {
 $stmt = $dbconn->prepare(
     "SELECT id FROM users WHERE username = ?"
 );
-$stmt->execute([$_SESSION['user']]);
+$stmt->execute([$_SESSION['user_id']]);
 $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
 /* save score */
+
 $stmt = $dbconn->prepare(
-    "INSERT INTO scores 
-    (quiz_id, user_id, amount_correct, total_questions, time_taken)
-    VALUES (?, ?, ?, ?, ?)"
-);
+"INSERT INTO scores (user_id, quiz_id, amount_correct, total_questions, time_taken) 
+VALUES (?, ?, ?, ?, ?)
+ON DUPLICATE KEY UPDATE amount_correct = VALUES(amount_correct), total_questions = VALUES(total_questions), time_taken = VALUES(time_taken);");
+$stmt->execute([$_SESSION["user_id"],$quizId,$totalScore,$totalQuestions,$timeTaken]);
 
-$stmt->execute([
-    $quizId,
-    $user['id'],
-    $totalScore,
-    $totalQuestions,
-    5
-]);
-
-$scoreId = $dbconn->lastInsertId();
+/* get the score ID */
+$stmt = $dbconn->prepare("SELECT id FROM scores WHERE user_id = ? AND quiz_id = ?");
+$stmt->execute([$_SESSION["user_id"], $quizId]);
+$scoreResult = $stmt->fetch(PDO::FETCH_ASSOC);
+$scoreId = $scoreResult['id'] ?? 0;
 
 /* store for results page */
 $_SESSION['last_score_id'] = $scoreId;
+
+unset($_SESSION['quiz_started']);
+
 
 header("Location: quiz_result.php");

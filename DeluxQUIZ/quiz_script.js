@@ -63,28 +63,67 @@ function toggleMediaInput(select) {
     }
 }
 //timer
-var timeElapsed = 0;
-var myTimer = 0;
+let quizStartTime = Date.now();
+let interval;
 
-function Start() {
-  myTimer = setInterval(function() {
-    timeElapsed += 1;
-    document.getElementById("time").innerText = timeElapsed;
-  }, 1000);
-
-}
-
-function Stop() {
-  clearInterval(myTimer);
-}
-
-function Reset() {
-  timeElapsed = 0;
-  clearInterval(myTimer);
-  document.getElementById("time").innerHTML = timeElapsed;
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-    var time = document.getElementById("res-time");
-    time.innerHTML = timeElapsed;
+window.addEventListener("load", () => {
+    startTimer();
 });
+
+function startTimer() {
+    quizStartTime = Date.now();
+
+    interval = setInterval(() => {
+        const seconds = Math.floor((Date.now() - quizStartTime) / 1000);
+        const min = Math.floor(seconds / 60);
+        const sec = seconds % 60;
+
+        document.getElementById("timer").textContent =
+            `${min}:${sec.toString().padStart(2, "0")}`;
+    }, 1000);
+}
+
+function stopTimer() {
+    clearInterval(interval);
+    const seconds = Math.floor((Date.now() - quizStartTime) / 1000);
+    document.getElementById("time_taken").value = seconds;
+}
+
+//canvas confetti
+
+const canvas = document.getElementById("confetti");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+const pieces = [];
+const colors = ["#ffd500", "#b83fe4ff", "#ff5fa2", "#00d4ff"];
+
+for (let i = 0; i < 200; i++) {
+    pieces.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height - canvas.height,
+        r: Math.random() * 6 + 4,
+        c: colors[Math.floor(Math.random() * colors.length)],
+        s: Math.random() * 3 + 2
+    });
+}
+
+function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    for (let p of pieces) {
+        ctx.beginPath();
+        ctx.fillStyle = p.c;
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fill();
+
+        p.y += p.s;
+        if (p.y > canvas.height) p.y = -10;
+    }
+
+    requestAnimationFrame(draw);
+}
+
+draw();
