@@ -39,7 +39,7 @@ if (isset($_SESSION["loginError"])) {
         }
         ?>
         <button type="submit" class="btn btn-primary login-button">Login</button>
-        <div><a href="signup.php" class="login-link">signup instead</a></div>
+        <div><a href="reset-password.php" class="login-link">forgot password</a> <br><a href="signup.php" class="login-link">signup instead</a></div>
     </form>
     </div>
 

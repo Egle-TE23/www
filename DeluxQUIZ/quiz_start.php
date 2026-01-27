@@ -9,6 +9,11 @@ if (!$quizId) {
     header("Location: main.php");
     exit;
 }
+if(!$_SESSION['username']){
+    header("Location: login.php");
+    exit;
+}
+
 
 //get quiz by id
 $stmt = $dbconn->prepare("SELECT * FROM quizzes WHERE id = ?");

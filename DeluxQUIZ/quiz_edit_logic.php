@@ -1,27 +1,42 @@
 <?php
+session_start();
 include 'dbconnection.php';
 
 $quizId = $_GET['id'] ?? $_POST['quiz_id'] ?? null;
 
 if ($quizId == null) {
     header("Location: account.php");
+    exit;
 }
-// Validate quiz has required fields BEFORE finishing
+// check if quiz has required fields
 $stmt = $dbconn->prepare("SELECT * FROM quizzes WHERE id = ?");
 $stmt->execute([$quizId]);
 $quiz = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if (
     empty($_POST['title']) ||
-    empty($_POST['description']) ||
-    empty($quiz['image'])
+    empty($_POST['description'])
 ) {
-    $_SESSION['editError'] = "Quiz must have title, image and description.";
+    $_SESSION['editError'] = "Quiz must have title and description.";
     header("Location: quiz_edit.php?id=$quizId");
     exit;
 }
+// Each question has text
+if (!empty($_POST['questions'])) {
+    foreach ($_POST['questions'] as $questionId => $questionData) {
+        if (
+            !isset($questionData['text']) ||
+            trim($questionData['text']) === ''
+        ) {
+            $_SESSION['editError'] = "Each question must have text.";
+            header("Location: quiz_edit.php?id=$quizId");
+            exit;
+        }
+    }
+}
 
-// Validate at least one question exists
+
+// At least one question exists
 $stmt = $dbconn->prepare("SELECT COUNT(*) as count FROM questions WHERE quiz_id = ?");
 $stmt->execute([$quizId]);
 $questionCount = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -32,8 +47,8 @@ if ($questionCount['count'] === 0) {
     exit;
 }
 
-// Validate each question has a correct answer
-$stmt = $dbconn->prepare("SELECT q.id FROM questions q WHERE q.quiz_id = ? AND NOT EXISTS (SELECT 1 FROM choices c WHERE c.question_id = q.id AND c.is_correct = 1)");
+// Each question has a correct answer
+$stmt = $dbconn->prepare("SELECT q.id FROM questions q WHERE q.quiz_id = ? AND NOT EXISTS (SELECT 1 FROM choices c WHERE c.question_id = q.id AND c.is_correct = 1)");//checks if each question has atleast 1 correct
 $stmt->execute([$quizId]);
 $questionsWithoutAnswers = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -83,10 +98,11 @@ if (!empty($_POST['questions'])) {
         if (!isset($questionData['correct'])) {
             $_SESSION['editError'] = "Each question must have a correct answer.";
             header("Location: quiz_edit.php?id=$quizId");
+            exit;
         }
         //question text and media type
         $stmt = $dbconn->prepare("UPDATE questions SET question_text = ?, media_type = ? WHERE id = ?");
-        $stmt->execute([$questionData['text'],$questionData['media_type'] ?: null, $questionId]);
+        $stmt->execute([$questionData['text'], $questionData['media_type'] ?: null, $questionId]);
 
         //media 
         $fileKey = 'media_' . $questionId;

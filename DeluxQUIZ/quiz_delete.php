@@ -23,13 +23,12 @@ if (!$quiz) {
     header("Location: main.php");
     exit;
 }
-
 //delete
 $dbconn->beginTransaction();
 //scores
 $dbconn->prepare("DELETE FROM scores WHERE quiz_id = ?")->execute([$quizId]);
 //choices
-$dbconn->prepare( "DELETE FROM choices WHERE question_id IN (SELECT id FROM questions WHERE quiz_id = ?)")->execute([$quizId]);
+$dbconn->prepare("DELETE FROM choices WHERE question_id IN (SELECT id FROM questions WHERE quiz_id = ?)")->execute([$quizId]);
 //questions
 $dbconn->prepare("DELETE FROM questions WHERE quiz_id = ?")->execute([$quizId]);
 //quiz

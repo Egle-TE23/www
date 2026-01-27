@@ -307,11 +307,10 @@ a {
     justify-content: center;
     position: fixed;
     bottom: 0;
-    font-size: 2rem;
     font-weight: bold;
     color: rgb(255, 250, 198);
     width: 100%;
-    padding: 10px;
+    padding: 5PX;
     border-radius: 5px;
     background-color: blueviolet;
     border: solid 2px rgb(120, 14, 201);
@@ -319,7 +318,8 @@ a {
 
 .bottom-sticky>h1,
 .bottom-sticky>div {
-    margin: 10px auto;
+    margin: 5px auto;
+    font-size: 1.5rem;
 }
 
 /*Edit quiz*/
@@ -407,10 +407,16 @@ a {
 }
 
 .create-media {
-    width: 300px;
+    max-height: 300px;
+    max-width: 1000px;
     margin: 10px;
+    border-radius: 10px;
 }
-
+.create-media-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 .media-path-div>input {
     display: inline;
 }
@@ -419,10 +425,12 @@ a {
     display: grid;
     grid-template-columns: auto auto;
 }
-
+#quiz-edit-form {
+    margin-bottom: 100px;
+}
 .edit-question-div {
     display: grid;
-    margin: 20px;
+    margin:  20px;
 }
 
 .edit-quiz-container {
@@ -433,6 +441,12 @@ a {
 .edit-quiz-div {
     display: block;
     margin: 10px;
+}
+
+#errormsg {
+    color: #ff8484;
+    margin: 1px;
+    font-weight: bold;
 }
 
 /*login signup*/
@@ -453,11 +467,7 @@ a {
     margin: 10px auto;
 }
 
-#errormsg {
-    color: #ff4444;
-    margin: 1px;
-    font-weight: bold;
-}
+
 
 #confetti {
     z-index: -1;
@@ -465,17 +475,6 @@ a {
     left: 0;
     top: 0;
 }
-
-.form-control {
-    border-radius: 8px;
-    padding: 10px 12px;
-}
-
-.form-control:focus {
-    border-color: rgb(105, 21, 183);
-    box-shadow: 0 0 0 3px rgba(105, 21, 183, 0.1);
-}
-
 .form-group {
     margin-bottom: 20px;
 }

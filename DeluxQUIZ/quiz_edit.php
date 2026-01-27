@@ -22,8 +22,9 @@ $stmt = $dbconn->prepare("SELECT * FROM users WHERE username = ?");
 $stmt->execute([$_SESSION["username"]]);
 $current_user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-if($owner['id']!=$current_user['id']){
+if ($owner['id'] != $current_user['id']) {
     header("Location:main.php");
+    exit;
 }
 
 //get quiz quesitons
@@ -50,7 +51,7 @@ function shorten($text, $maxLength = 100)
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= htmlspecialchars($quiz['title']) ?></title>
-    <?php include("scripts-links.php")?>
+    <?php include("scripts-links.php") ?>
 </head>
 
 <body>
@@ -65,7 +66,8 @@ function shorten($text, $maxLength = 100)
                             <?= ($i + 1) . '. ' . shorten($question['question_text'], 15) ?>
                         </span>
 
-                        <button type="submit" form="delete-question-<?= $question['id'] ?>" class="btn btn-sm  delete-question-btn"
+                        <button type="submit" form="delete-question-<?= $question['id'] ?>"
+                            class="btn btn-sm  delete-question-btn"
                             onclick="return confirm('Delete this question?')">x</button>
                     </div>
                 <?php endforeach; ?>
@@ -80,25 +82,30 @@ function shorten($text, $maxLength = 100)
 
                     <h4>Question <?= $i + 1 ?></h4>
                     <!-- media -->
-                    <?php if (!empty($question['media_path'])): ?>
-                        <?php if ($question['media_type'] === 'image'): ?>
-                            <img src="<?= htmlspecialchars($question['media_path']) ?>" class="create-media">
-                        <?php elseif ($question['media_type'] === 'video'): ?>
-                            <video controls class="create-media">
-                                <source src="<?= htmlspecialchars($question['media_path']) ?>">
-                            </video>
-                        <?php elseif ($question['media_type'] === 'audio'): ?>
-                            <audio controls>
-                                <source src="<?= htmlspecialchars($question['media_path']) ?>">
-                            </audio>
+                    <div class="create-media-container">
+                        <?php if (!empty($question['media_path'])): ?>
+                            <?php if ($question['media_type'] === 'image'): ?>
+                                <img src="<?= htmlspecialchars($question['media_path']) ?>" class="create-media">
+                            <?php elseif ($question['media_type'] === 'video'): ?>
+                                <video controls class="create-media">
+                                    <source src="<?= htmlspecialchars($question['media_path']) ?>">
+                                </video>
+                            <?php elseif ($question['media_type'] === 'audio'): ?>
+                                <audio controls>
+                                    <source src="<?= htmlspecialchars($question['media_path']) ?>">
+                                </audio>
+                            <?php endif; ?>
                         <?php endif; ?>
-                    <?php endif; ?>
+                    </div>
                     <select class="form-select mb-2 media-type" data-question-id="<?= $question['id'] ?>"
-                        name="questions[<?= $question['id'] ?>][media_type]" >
+                        name="questions[<?= $question['id'] ?>][media_type]">
                         <option value="">No media</option>
-                        <option value="image" <?php if($question['media_type']=="image")echo "selected"; ?>>Image</option>
-                        <option value="video"<?php if($question['media_type']=="video")echo "selected"; ?>>Video</option>
-                        <option value="audio"<?php if($question['media_type']=="audio")echo "selected"; ?>>Audio</option>
+                        <option value="image" <?php if ($question['media_type'] == "image")
+                            echo "selected"; ?>>Image</option>
+                        <option value="video" <?php if ($question['media_type'] == "video")
+                            echo "selected"; ?>>Video</option>
+                        <option value="audio" <?php if ($question['media_type'] == "audio")
+                            echo "selected"; ?>>Audio</option>
                     </select>
 
                     <input type="file" class="form-control mb-3 media-input" data-question-id="<?= $question['id'] ?>"
@@ -113,9 +120,7 @@ function shorten($text, $maxLength = 100)
 
                     <div class="quiz-options">
                         <?php
-                        $stmt = $dbconn->prepare(
-                            "SELECT * FROM choices WHERE question_id = ?"
-                        );
+                        $stmt = $dbconn->prepare( "SELECT * FROM choices WHERE question_id = ?");
                         $stmt->execute([$question['id']]);
                         $choices = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         ?>
@@ -138,9 +143,9 @@ function shorten($text, $maxLength = 100)
 
         <div class="edit-quiz-container">
             <h3>Quiz Settings</h3>
-            <?php 
-            if($quiz['image']!=null){
-                echo '<img src="'. htmlspecialchars($quiz['image']).'"style="width: 100%" class="edit-quiz-div">';
+            <?php
+            if ($quiz['image'] != null) {
+                echo '<img src="' . htmlspecialchars($quiz['image']) . '"style="width: 100%" class="edit-quiz-div">';
             }
             ?>
 
@@ -156,11 +161,12 @@ function shorten($text, $maxLength = 100)
             <button form="quiz-delete" type="submit" class="edit-quiz-div btn delete-quiz-btn"> Delete Quiz </button>
         </div>
     </form>
-    <?php if($errorMessage ): ?>
-    <div class="bottom-sticky">
-        <p id="errormsg"><?= htmlspecialchars($errorMessage) ?></p>
-    </div>
+    <?php if ($errorMessage): ?>
+            <div class="bottom-sticky">
+            <p id="errormsg"><?= htmlspecialchars($errorMessage) ?></p>
+                </div>
     <?php endif; ?>
+
 
     <!-- hidden form for delete quiz button-->
     <form id="quiz-delete" action="quiz_delete.php" method="POST"

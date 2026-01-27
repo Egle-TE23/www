@@ -69,7 +69,7 @@ $questions = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <?php endif; ?>
 
                 <?php endif; ?>
-                <h4><?= htmlspecialchars($question['question_text']) ?></h4>
+                <h4 style="margin:10px;"><?= htmlspecialchars($question['question_text']) ?></h4>
                 <?php
                 $stmt = $dbconn->prepare("SELECT * FROM choices WHERE question_id = ?");
                 $stmt->execute([$question['id']]);

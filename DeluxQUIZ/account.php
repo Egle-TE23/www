@@ -13,7 +13,7 @@ $stmt = $dbconn->prepare("SELECT * FROM users WHERE username = ?");
 $stmt->execute([$user]);
 $userId = $stmt->fetch(PDO::FETCH_ASSOC);
 //get quiz by id
-$stmt = $dbconn->prepare("SELECT * FROM quizzes WHERE owner_id = ?");
+$stmt = $dbconn->prepare("SELECT * FROM quizzes WHERE owner_id = ? ORDER BY id DESC");
 $stmt->execute([$_SESSION["user_id"]]);
 $quizzes = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -45,6 +45,13 @@ function shorten($text, $maxLength = 100)
     ?>
     <h1 class="title">Your Quizzes</h1>
     <div class="quiz-display">
+        <div class="card create-card card" style="width: 15rem;">
+            <form action="quiz_create.php" method="post" class="create-card-form">
+                <button type="submit" class="create-card-btn card-body">
+                    <span class="plus">+</span>
+                </button>
+            </form>
+        </div>
         <?php foreach ($quizzes as $i => $quiz): ?>
             <div class="card" style="width: 15rem;">
                 <?php if (($quiz['image']) != null) {
@@ -66,14 +73,6 @@ function shorten($text, $maxLength = 100)
                 </div>
             </div>
         <?php endforeach; ?>
-
-        <div class="card create-card card" style="width: 15rem;">
-            <form action="quiz_create.php" method="post" class="create-card-form">
-                <button type="submit" class="create-card-btn card-body">
-                    <span class="plus">+</span>
-                </button>
-            </form>
-        </div>
     </div>
     <button class="btn btn-primary center-btn" id="logoutbtn"><a  href="logout.php">Logout</a></button>
 </body>
