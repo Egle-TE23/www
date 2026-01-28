@@ -43,6 +43,7 @@ a {
 /*Bootstrap override stuff*/
 .card {
     width: 100% !important;
+    min-height: 350px;
     max-width: 270px;
     border-radius: 10px;
     margin: 10px;
@@ -158,6 +159,9 @@ a {
     margin: 10px;
     opacity: 1;
 }
+.quiz-btn {
+    padding: 10px 20px;
+}
 
 .carousel-control-prev {
     width: fit-content;
@@ -250,6 +254,12 @@ a {
     width: auto;
     max-height: 300px;
 }
+.start-info {
+    max-width: 400px;
+    line-break: anywhere;
+    text-align: center;
+    margin-top: 20px;
+}
 
 #quiz-form {
     max-width: 400px;
@@ -321,7 +331,6 @@ a {
     margin: 5px auto;
     font-size: 1.5rem;
 }
-
 /*Edit quiz*/
 .create-form {
     display: grid;

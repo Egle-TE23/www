@@ -4,7 +4,7 @@ const submitBtn = document.getElementById('submitBtn');
 
 questions.forEach((question, index) => {
     const choices = question.querySelectorAll('.choice');
-    const nextBtn = question.querySelector('.next-btn');
+    const nextBtn = question.querySelector('.quiz-btn');
     choices.forEach(choice => {
         choice.addEventListener('change', () => { nextBtn.style.display = 'inline-block'; });
     });

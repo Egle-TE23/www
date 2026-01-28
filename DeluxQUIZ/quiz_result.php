@@ -2,16 +2,14 @@
 session_start();
 include 'dbconnection.php';
 
+unset($_SESSION['quiz_started']);//again just to make sure
 if (!isset($_SESSION['last_score_id'])) {
     header("Location: main.php");
     exit;
 }
 
 $scoreId = $_SESSION['last_score_id'];
-$stmt = $dbconn->prepare(
-    "SELECT s.*, q.title AS quiz_title,u.username 
-    FROM scores s JOIN quizzes q ON q.id = s.quiz_id JOIN users u ON u.id = s.user_id WHERE s.id = ?"
-);
+$stmt = $dbconn->prepare("SELECT s.*, q.title AS quiz_title,u.username FROM scores s JOIN quizzes q ON q.id = s.quiz_id JOIN users u ON u.id = s.user_id WHERE s.id = ?");
 $stmt->execute([$scoreId]);
 $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -29,6 +27,7 @@ $leaderboard = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title><?= htmlspecialchars($result['quiz_title']) ?></title>
@@ -36,85 +35,78 @@ $leaderboard = $stmt->fetchAll(PDO::FETCH_ASSOC);
 </head>
 
 <body>
+    <?php include("header.php") ?>
 
-<?php include("header.php") ?>
+    <div class="result-div">
 
-<div class="result-div">
+        <h1><?= htmlspecialchars($result['quiz_title']) ?></h1>
 
-    <h1><?= htmlspecialchars($result['quiz_title']) ?></h1>
+        <h2>
+            <?= htmlspecialchars($result['username']) ?>
+        </h2>
 
-    <h2>
-        <?= htmlspecialchars($result['username']) ?>
-    </h2>
+        <div id="quiz-result-div">
 
-    <div id="quiz-result-div">
+            <h3>
+                Score:
+                <?= $result['amount_correct'] ?>
+                /
+                <?= $result['total_questions'] ?>
+            </h3>
 
-        <h3>
-            Score:
-            <?= $result['amount_correct'] ?>
-            /
-            <?= $result['total_questions'] ?>
-        </h3>
+            <h4>
+                <?= $result['total_questions'] > 0
+                    ? round(($result['amount_correct'] / $result['total_questions']) * 100)
+                    : 0 ?>%
+            </h4>
 
-        <h4>
-            <?= $result['total_questions'] > 0
-                ? round(($result['amount_correct'] / $result['total_questions']) * 100)
-                : 0 ?>%
-        </h4>
+            <p>
+                Time taken:
+                <strong><?= $result['time_taken'] ?></strong> seconds
+            </p>
 
-        <p>
-            Time taken:
-            <strong><?= $result['time_taken'] ?></strong> seconds
-        </p>
+        </div>
 
     </div>
 
-</div>
+    <hr>
 
-<hr>
+    <div class="leaderboard-div">
+        <h2>Top 10 Leaderboard</h2>
+        <?php if (count($leaderboard) === 0): ?>
+            <p>No scores yet!</p>
+        <?php else: ?>
 
-<div class="leaderboard-div">
+            <table class="table table-striped text-center mt-3">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>User</th>
+                        <th>Score</th>
+                        <th>Time</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($leaderboard as $i => $row): ?>
+                        <tr <?= $row['username'] === $result['username'] ? 'class="table-warning"' : '' ?>>
+                            <td><?= $i + 1 ?></td>
+                            <td><?= htmlspecialchars($row['username']) ?></td>
+                            <td>
+                                <?= $row['amount_correct'] ?>/<?= $row['total_questions'] ?>
+                            </td>
+                            <td><?= $row['time_taken'] ?>s</td>
+                        </tr>
+                    <?php endforeach; ?>
 
-    <h2>Top 10 Leaderboard</h2>
+                </tbody>
+            </table>
+        <?php endif; ?>
+    </div>
 
-    <?php if (count($leaderboard) === 0): ?>
-        <p>No scores yet.</p>
-    <?php else: ?>
-
-        <table class="table table-striped text-center mt-3">
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>User</th>
-                    <th>Score</th>
-                    <th>Time</th>
-                </tr>
-            </thead>
-            <tbody>
-
-            <?php foreach ($leaderboard as $i => $row): ?>
-                <tr <?= $row['username'] === $result['username'] ? 'class="table-warning"' : '' ?>>
-                    <td><?= $i + 1 ?></td>
-                    <td><?= htmlspecialchars($row['username']) ?></td>
-                    <td>
-                        <?= $row['amount_correct'] ?>
-                        /
-                        <?= $row['total_questions'] ?>
-                    </td>
-                    <td><?= $row['time_taken'] ?>s</td>
-                </tr>
-            <?php endforeach; ?>
-
-            </tbody>
-        </table>
-
-    <?php endif; ?>
-
-</div>
-
-<div class="text-center mt-4">
-    <a href="main.php" class="btn btn-primary">Back to quizzes</a>
-</div>
-<canvas id="confetti"></canvas>
+    <div class="text-center mt-4">
+        <a href="main.php" class="btn btn-primary">Back to quizzes</a>
+    </div>
+    <canvas id="confetti"></canvas>
 </body>
+
 </html>

@@ -20,7 +20,7 @@ session_start();
             <h1 style="color:blueviolet; width: fit-content;" class="m-auto ">Reset password</h1>
 
             <div class="form-group">
-                <label for="username">Username</label>
+                <label for="username">Account email</label>
                 <input type="email" class="form-control" name="email" required placeholder="Your email">
             </div>
 

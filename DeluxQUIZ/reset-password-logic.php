@@ -1,6 +1,7 @@
 <?php
 session_start();
 include 'dbconnection.php';
+include 'sendmail.php'; 
 
 $email = $_POST['email'] ?? '';
 
@@ -19,9 +20,10 @@ $expires = date("Y-m-d H:i:s", time() + 1800); // 30 min
 $stmt = $dbconn->prepare("UPDATE users SET reset_token = ?, reset_expires = ? WHERE id = ?");
 $stmt->execute([$token, $expires, $user['id']]);
 
-$link = "http://localhost/reset-password-confirm.php?token=$token";
+$ipAddress = $_SERVER['HTTP_HOST'];
+$link = "http://$ipAddress/DeluxQUIZ/reset-password-confirm.php?token=$token";
 
-mail(
+sendMail(
     $email,
     "EPIC QUIZ Password reset",
     "Lol you forgot your password. Click here to reset it:\n$link"

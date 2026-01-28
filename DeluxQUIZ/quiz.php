@@ -22,6 +22,8 @@ $quiz = $stmt->fetch(PDO::FETCH_ASSOC);
 $stmt = $dbconn->prepare("SELECT * FROM questions WHERE quiz_id = ?");
 $stmt->execute([$quizId]);
 $questions = $stmt->fetchAll(PDO::FETCH_ASSOC);
+//count question
+$questionCount = count($questions);
 ?>
 
 <!DOCTYPE html>
@@ -79,22 +81,25 @@ $questions = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <div class="quiz-options">
                     <?php foreach ($choices as $choice): ?>
                         <div class="quiz-option">
-                            <input class="choice" type="radio" id="choice-<?= $choice['id'] ?>" name="choices[<?= $question['id'] ?>]"
-                                value="<?= $choice['id'] ?>">
+                            <input class="choice" type="radio" id="choice-<?= $choice['id'] ?>"
+                                name="choices[<?= $question['id'] ?>]" value="<?= $choice['id'] ?>">
 
                             <label for="choice-<?= $choice['id'] ?>"> <?= htmlspecialchars($choice['choice_text']) ?>
                             </label>
                         </div>
                     <?php endforeach; ?>
                 </div>
-
-                <button type="button" class="btn btn-primary next-btn" style="display:none"> Next </button>
                 <!--next question button not displayed until choice selected-->
+                <?php if ($i == $questionCount-1): ?>
+                    <button type="submit" class="btn btn-outline-secondary quiz-btn" id="submit-btn" style="display:none" onclick="stopTimer()">Submit Quiz</button>
+                <?php else: ?>
+                    <button type="button" class="btn btn-outline-secondary quiz-btn" id="next-btn" style="display:none"> Next </button>
+                <?php endif; ?>
             </div>
         <?php endforeach; ?>
 
-        <button type="submit" class="btn btn-success" id="submitBtn" style="display:none" onclick="stopTimer()">Submit
-            Quiz</button>
+
+
     </form>
 
 </body>
