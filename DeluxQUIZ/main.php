@@ -116,10 +116,9 @@ function shorten($text, $maxLength = 100)
             <?php endif; ?>
         </div>
     <?php endif; ?>
-
-
     </div>
-    <?php include("footer.php"); ?>
+
+    <hr class="mt-5">
 </body>
 
 </html>

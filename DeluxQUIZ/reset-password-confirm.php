@@ -3,7 +3,8 @@ include 'dbconnection.php';
 
 $token = $_GET['token'] ?? '';
 
-$stmt = $dbconn->prepare("SELECT id FROM users WHERE reset_token = ? AND reset_expires > NOW()");
+$now= date("Y-m-d H:i:s", time() );
+$stmt = $dbconn->prepare("SELECT id FROM users WHERE reset_token = ? AND reset_expires > $now");
 $stmt->execute([$token]);
 $user = $stmt->fetch();
 

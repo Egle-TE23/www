@@ -10,7 +10,7 @@ if (!$quizId) {
     header("Location: main.php");
     exit;
 }
-if (!$_SESSION['username']) {
+if (!isset($_SESSION['username'])) {
     header("Location: login.php");
     exit;
 }
@@ -54,11 +54,6 @@ $stmt->execute([$quiz["owner_id"]]);
 $creator = $stmt->fetch(PDO::FETCH_ASSOC);
 
 //leaderboard stuff
-$scoreId = $_SESSION['last_score_id'];
-$stmt = $dbconn->prepare("SELECT s.*, q.title AS quiz_title,u.username FROM scores s JOIN quizzes q ON q.id = s.quiz_id JOIN users u ON u.id = s.user_id WHERE s.id = ?");
-$stmt->execute([$scoreId]);
-$result = $stmt->fetch(PDO::FETCH_ASSOC);
-
 $stmt = $dbconn->prepare(
     "SELECT u.username,s.amount_correct,s.total_questions,s.time_taken
      FROM scores s JOIN users u ON u.id = s.user_id
@@ -99,38 +94,9 @@ $leaderboard = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 } ?>
             </h5>
         </div>
-        <div class="leaderboard-div">
-            <h2>Top 10 Leaderboard</h2>
-            <?php if (count($leaderboard) === 0): ?>
-                <p>No scores yet!</p>
-            <?php else: ?>
-
-                <table class="table table-striped text-center mt-3">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>User</th>
-                            <th>Score</th>
-                            <th>Time</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach ($leaderboard as $i => $row): ?>
-                            <tr <?= $row['username'] === $result['username'] ? 'class="table-warning"' : '' ?>>
-                                <td><?= $i + 1 ?></td>
-                                <td><?= htmlspecialchars($row['username']) ?></td>
-                                <td>
-                                    <?= $row['amount_correct'] ?>/<?= $row['total_questions'] ?>
-                                </td>
-                                <td><?= $row['time_taken'] ?>s</td>
-                            </tr>
-                        <?php endforeach; ?>
-
-                    </tbody>
-                </table>
-            <?php endif; ?>
-        </div>
     </div>
+            <hr>
+        <?php include 'leaderboard.php'; ?>
 </body>
 
 </html>

@@ -106,7 +106,7 @@ for (let i = 0; i < 200; i++) {
         y: Math.random() * canvas.height - canvas.height,
         r: Math.random() * 6 + 4,
         c: colors[Math.floor(Math.random() * colors.length)],
-        s: Math.random() * 3 + 2
+        s: Math.random() * 3 + 5
     });
 }
 

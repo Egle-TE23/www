@@ -10,8 +10,8 @@ if ($pass !== $conf) {
 }
 
 $hash = password_hash($pass, PASSWORD_DEFAULT);
-
-$stmt = $dbconn->prepare("UPDATE users SET password = ?,reset_token = NULL, reset_expires = NULL WHERE reset_token = ? AND reset_expires > NOW()");
+$now= date("Y-m-d H:i:s", time() );
+$stmt = $dbconn->prepare("UPDATE users SET password = ?,reset_token = NULL, reset_expires = NULL WHERE reset_token = ? AND reset_expires > $now");
 
 $stmt->execute([$hash, $token]);
 

@@ -6,5 +6,6 @@
         crossorigin="anonymous"></script>
         <link href="https://fonts.googleapis.com/css?family=Aclonica" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <script defer src="quiz_script.js"></script>'
+    <script defer src="quiz_script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/js-confetti@latest/dist/js-confetti.browser.js"></script>'
 ?>

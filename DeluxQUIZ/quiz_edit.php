@@ -60,6 +60,7 @@ function shorten($text, $maxLength = 100)
         enctype="multipart/form-data">
         <div>
             <div class="create-questions-div">
+                <h3 style="color: blueviolet;">Questions</h3>
                 <?php foreach ($questions as $i => $question): ?>
                     <div class="create-question" data-question-id="<?= $question['id'] ?>">
                         <span onclick="showQuestion(<?= $question['id'] ?>)">
@@ -99,7 +100,7 @@ function shorten($text, $maxLength = 100)
                     </div>
                     <select class="form-select mb-2 media-type" data-question-id="<?= $question['id'] ?>"
                         name="questions[<?= $question['id'] ?>][media_type]">
-                        <option value="">No media</option>
+                        <option value="">Select question media type</option>
                         <option value="image" <?php if ($question['media_type'] == "image")
                             echo "selected"; ?>>Image</option>
                         <option value="video" <?php if ($question['media_type'] == "video")
@@ -120,7 +121,7 @@ function shorten($text, $maxLength = 100)
 
                     <div class="quiz-options">
                         <?php
-                        $stmt = $dbconn->prepare( "SELECT * FROM choices WHERE question_id = ?");
+                        $stmt = $dbconn->prepare("SELECT * FROM choices WHERE question_id = ?");
                         $stmt->execute([$question['id']]);
                         $choices = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         ?>
@@ -143,9 +144,13 @@ function shorten($text, $maxLength = 100)
 
         <div class="edit-quiz-container">
             <h3>Quiz Settings</h3>
+            <div id="quiz-edit-buttons">
+                <input type="submit" class=" btn btn-primary save-quiz-btn" value="Save Quiz">
+                <button form="quiz-delete" type="submit" class=" btn delete-quiz-btn"> Delete Quiz</button>
+            </div>
             <?php
             if ($quiz['image'] != null) {
-                echo '<img src="' . htmlspecialchars($quiz['image']) . '"style="width: 100%" class="edit-quiz-div">';
+                echo '<img src="' . htmlspecialchars($quiz['image']) . '"style="width: 100%; border-radius:10px;" class="edit-quiz-div">';
             }
             ?>
 
@@ -156,18 +161,13 @@ function shorten($text, $maxLength = 100)
                 value="<?= htmlspecialchars($quiz['title']) ?>">
             <textarea class="form-control edit-quiz-div" name="description" placeholder="Quiz Description"
                 rows="4"><?= htmlspecialchars($quiz['description']) ?></textarea>
-
-            <input type="submit" class="edit-quiz-div btn btn-primary save-quiz-btn" value="Save Quiz">
-            <button form="quiz-delete" type="submit" class="edit-quiz-div btn delete-quiz-btn"> Delete Quiz </button>
         </div>
     </form>
     <?php if ($errorMessage): ?>
-            <div class="bottom-sticky">
+        <div class="bottom-sticky">
             <p id="errormsg"><?= htmlspecialchars($errorMessage) ?></p>
-                </div>
+        </div>
     <?php endif; ?>
-
-
     <!-- hidden form for delete quiz button-->
     <form id="quiz-delete" action="quiz_delete.php" method="POST"
         onsubmit="return confirm('Are you sure you want to delete this quiz? This cannot be undone.')" class="d-none">

@@ -1,6 +1,9 @@
 <?php
 include 'dbconnection.php';
 session_start();
+//stuff so user cant go back to quiz after finishing
+header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+header("Pragma: no-cache");
 
 $quizId = $_GET['id'] ?? null;
 
@@ -71,7 +74,7 @@ $questionCount = count($questions);
                     <?php endif; ?>
 
                 <?php endif; ?>
-                <h4 style="margin:10px;"><?= htmlspecialchars($question['question_text']) ?></h4>
+                <h4 style="margin-top:10px;"><?= htmlspecialchars($question['question_text']) ?></h4>
                 <?php
                 $stmt = $dbconn->prepare("SELECT * FROM choices WHERE question_id = ?");
                 $stmt->execute([$question['id']]);

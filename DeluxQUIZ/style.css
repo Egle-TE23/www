@@ -26,6 +26,8 @@ p {
 
 hr {
     color: blueviolet !important;
+    max-width: 50%;
+    margin: auto;
     opacity: 1;
     border-width: 3px;
     margin-bottom: 10px;
@@ -43,8 +45,8 @@ a {
 /*Bootstrap override stuff*/
 .card {
     width: 100% !important;
-    min-height: 350px;
-    max-width: 270px;
+    min-height: 300px;
+    max-width: 250px;
     border-radius: 10px;
     margin: 10px;
     background-image: linear-gradient(230deg, gold, yellow);
@@ -55,6 +57,7 @@ a {
 }
 
 .btn-primary {
+    border: solid 1px rgb(120, 14, 201);
     background-color: hsl(271, 76%, 53%);
     color: yellow;
 }
@@ -173,9 +176,9 @@ a {
 /*account*/
 .quiz-display {
     margin: auto;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    /*wow ändrar antal columner responsivt*/
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
     gap: 20px;
     padding: 10px;
 }
@@ -199,6 +202,9 @@ a {
 }
 
 .create-card-btn {
+    cursor: pointer;
+    user-select: none;
+
     width: 100%;
     height: 100%;
     min-height: 350px;
@@ -269,18 +275,21 @@ a {
 }
 
 .quiz-media {
-    max-height: 250px;
+    max-height: 200px;
     border-radius: 5px;
 }
 
 .quiz-options {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 12px;
 }
 
 .quiz-option {
     text-align: center;
+}
+.quiz-option:hover, .quiz-option>label:hover {
+    cursor: pointer;
+    user-select: none;
 }
 
 .quiz-option input[type="radio"] {
@@ -293,14 +302,14 @@ a {
     justify-content: center;
     align-items: center;
 
-    min-height: 70px;
+    min-height: 60px;
     padding: 12px;
     white-space: normal;
     word-break: break-word;
     margin: 8px;
 
     border-radius: 10px;
-    margin: 10px;
+    margin: 5px;
     background-image: linear-gradient(230deg, gold, yellow);
 }
 
@@ -331,12 +340,20 @@ a {
     margin: 5px auto;
     font-size: 1.5rem;
 }
+
+#submit-btn {
+    margin: 10px;
+    padding: 10px 20px;
+    font-size: large;
+    font-weight: bold;
+}
 /*Edit quiz*/
 .create-form {
     display: grid;
     grid-template-columns: 1fr 3fr 1fr;
     gap: 15px;
 }
+
 
 @media (max-width: 900px) {
     .create-form {
@@ -398,7 +415,7 @@ a {
 .delete-quiz-btn {
     border-radius: 10px;
     border: none;
-    margin: 10px;
+    margin: 5px;
     color: blueviolet;
     background-image: linear-gradient(230deg, gold, yellow);
 }
@@ -413,6 +430,7 @@ a {
     color: yellow;
     border: solid 1px rgb(105, 21, 183);
     padding: 5px 12px;
+    margin: 5px;
 }
 
 .create-media {
@@ -451,9 +469,18 @@ a {
     display: block;
     margin: 10px;
 }
+.quiz-edit-buttons{
+    display: flex;
+    flex-wrap: wrap;
+}
 
 #errormsg {
-    color: #ff8484;
+    color: rgb(255, 255, 216);
+    margin: 1px;
+    font-weight: bold;
+}
+#errormsg-purple {
+    color: blueviolet!important;
     margin: 1px;
     font-weight: bold;
 }
@@ -471,18 +498,8 @@ a {
 .login-link {
     color: blueviolet;
 }
-
 .login-button {
     margin: 10px auto;
-}
-
-
-
-#confetti {
-    z-index: -1;
-    position: absolute;
-    left: 0;
-    top: 0;
 }
 .form-group {
     margin-bottom: 20px;
@@ -493,4 +510,51 @@ a {
     margin-bottom: 8px;
     font-weight: 600;
     color: blueviolet;
+}
+
+/*result spage */
+
+#confetti {
+    z-index: -1;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+.result-div{
+    text-align: center;
+    margin: 20px auto;
+}
+
+.leaderboard-div{
+    text-align: center;
+    margin: 20px auto;
+}
+.leaderboard-table{
+    margin: 10px auto ;
+    max-width: 80%;
+    border:solid black 3px;
+    border-radius:6px;
+    overflow:hidden;
+}
+td, th {
+    border-left:solid black 1px;
+    border-top:solid black 1px;
+}
+th {
+    background-color: rgb(255, 234, 49) !important;
+    border-top: none;
+}
+td:first-child, th:first-child {
+     border-left: none;
+}
+td{
+    color: blueviolet !important;
+}
+.table-highlight>td{
+    background-color: rgb(243, 217, 255) !important;
+}
+
+.yellow-text-sm{
+    color: rgb(255, 255, 241)!important;
+    font-weight: bold;
 }

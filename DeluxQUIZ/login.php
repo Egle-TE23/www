@@ -35,7 +35,7 @@ if (isset($_SESSION["loginError"])) {
         </div>
         <?php
         if ($errorMessage != "") {
-            echo "<p id='errormsg'>" . $errorMessage . "</p>";
+            echo "<p id='errormsg-purple'>" . $errorMessage . "</p>";
         }
         ?>
         <button type="submit" class="btn btn-primary login-button">Login</button>

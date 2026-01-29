@@ -41,28 +41,22 @@ $leaderboard = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         <h1><?= htmlspecialchars($result['quiz_title']) ?></h1>
 
-        <h2>
+        <h2 style="font-size:1.5rem;">
             <?= htmlspecialchars($result['username']) ?>
         </h2>
 
         <div id="quiz-result-div">
 
             <h3>
-                Score:
-                <?= $result['amount_correct'] ?>
-                /
-                <?= $result['total_questions'] ?>
+                Score:<?= $result['amount_correct'] ?>/<?= $result['total_questions'] ?>
             </h3>
 
             <h4>
-                <?= $result['total_questions'] > 0
-                    ? round(($result['amount_correct'] / $result['total_questions']) * 100)
-                    : 0 ?>%
+                <?= $result['total_questions'] > 0? round(($result['amount_correct'] / $result['total_questions']) * 100): 0 ?>%
             </h4>
 
-            <p>
-                Time taken:
-                <strong><?= $result['time_taken'] ?></strong> seconds
+            <p class="yellow-text-sm">
+                Time taken: <strong ><?= $result['time_taken'] ?></strong> seconds
             </p>
 
         </div>
@@ -71,37 +65,7 @@ $leaderboard = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     <hr>
 
-    <div class="leaderboard-div">
-        <h2>Top 10 Leaderboard</h2>
-        <?php if (count($leaderboard) === 0): ?>
-            <p>No scores yet!</p>
-        <?php else: ?>
-
-            <table class="table table-striped text-center mt-3">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>User</th>
-                        <th>Score</th>
-                        <th>Time</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($leaderboard as $i => $row): ?>
-                        <tr <?= $row['username'] === $result['username'] ? 'class="table-warning"' : '' ?>>
-                            <td><?= $i + 1 ?></td>
-                            <td><?= htmlspecialchars($row['username']) ?></td>
-                            <td>
-                                <?= $row['amount_correct'] ?>/<?= $row['total_questions'] ?>
-                            </td>
-                            <td><?= $row['time_taken'] ?>s</td>
-                        </tr>
-                    <?php endforeach; ?>
-
-                </tbody>
-            </table>
-        <?php endif; ?>
-    </div>
+    <?php include 'leaderboard.php'; ?>
 
     <div class="text-center mt-4">
         <a href="main.php" class="btn btn-primary">Back to quizzes</a>
