@@ -29,7 +29,7 @@ if (isset($_SESSION["signupError"])) {
             <div class="form-group">
                 <label for="passwordConfirm">Email</label>
                 <input type="email" class="form-control" id="email" name="email" placeholder="Email address"
-                    maxlength="100">
+                    maxlength="1000">
                 <small class="char-counter" data-for="email"></small>
             </div>
             <div class="form-group">
