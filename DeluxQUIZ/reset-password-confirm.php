@@ -1,23 +1,59 @@
 <?php
 include 'dbconnection.php';
+session_start();
 
+$errorMessage = "";
+if (isset($_SESSION["resetError"])) {
+    $errorMessage = $_SESSION["resetError"];
+    unset($_SESSION["resetError"]);
+}
 $token = $_GET['token'] ?? '';
 
-$now= date("Y-m-d H:i:s", time() );
-$stmt = $dbconn->prepare("SELECT id FROM users WHERE reset_token = ? AND reset_expires > $now");
-$stmt->execute([$token]);
+$now = date("Y-m-d H:i:s", time());
+$stmt = $dbconn->prepare("SELECT * FROM users WHERE reset_token = ? AND reset_expires > ?");
+$stmt->execute([$token, $now]);
 $user = $stmt->fetch();
 
-if (!$user) {
-    die("Invalid or expired reset link.");
+if (!$user["id"]) {
+    $_SESSION["loginerror"] = "Invalid or expired reset link.";
+    header("Location: login.php");
+    exit;
 }
 ?>
+<!DOCTYPE html>
+<html lang="en">
 
-<form action="new-password-logic.php" method="POST">
-    <input type="hidden" name="token" value="<?= htmlspecialchars($token) ?>">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <?php include("scripts-links.php") ?>
+    <script> src="input-counter-script.js" defer></script>
+</head>
 
-    <input type="password" name="password" required placeholder="New password">
-    <input type="password" name="confirm" required placeholder="Confirm password">
+<body>
+    <?php
+    include("header.php");
+    ?>
+    <div style="margin:50px;">
+        <form action="new-password-logic.php" method="post" class="login-form">
+            <input type="hidden" name="token" value="<?= htmlspecialchars($token) ?>">
+            <h1 style="color:blueviolet; width: fit-content;" class="m-auto ">Set New Password</h1>
+            <p class="">Reset password for: <?= $user["email"] ?></p>
+            <input type="password" id="password" class="form-control mt-3" name="password" required placeholder="New password" maxlength="50">
 
-    <button type="submit">Reset password</button>
-</form>
+            <small class="char-counter" data-for="password"></small>
+            <input type="password" id="passwordConfirm"class="form-control mt-3" name="confirm" required placeholder="Confirm password" maxlength="50">
+
+            <small class="char-counter" data-for="passwordConfirm"></small>
+            <?php
+            if ($errorMessage != "") {
+                echo "<p id='errormsg-purple'>" . $errorMessage . "</p>";
+            }
+            ?>
+            <button type="submit" class="btn btn-primary login-button mt-3">Reset password</button>
+        </form>
+    </div>
+</body>
+
+</html>

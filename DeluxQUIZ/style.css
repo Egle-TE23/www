@@ -162,6 +162,7 @@ a {
     margin: 10px;
     opacity: 1;
 }
+
 .quiz-btn {
     padding: 10px 20px;
 }
@@ -257,14 +258,14 @@ a {
 }
 
 #start-img {
-    width: auto;
     max-height: 300px;
 }
+
 .start-info {
     max-width: 400px;
     line-break: anywhere;
     text-align: center;
-    margin-top: 20px;
+    margin: 20px auto;
 }
 
 #quiz-form {
@@ -287,7 +288,9 @@ a {
 .quiz-option {
     text-align: center;
 }
-.quiz-option:hover, .quiz-option>label:hover {
+
+.quiz-option:hover,
+.quiz-option>label:hover {
     cursor: pointer;
     user-select: none;
 }
@@ -347,6 +350,7 @@ a {
     font-size: large;
     font-weight: bold;
 }
+
 /*Edit quiz*/
 .create-form {
     display: grid;
@@ -435,15 +439,17 @@ a {
 
 .create-media {
     max-height: 300px;
-    max-width: 1000px;
+    max-width: 100%;
     margin: 10px;
     border-radius: 10px;
 }
+
 .create-media-container {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
+
 .media-path-div>input {
     display: inline;
 }
@@ -452,12 +458,14 @@ a {
     display: grid;
     grid-template-columns: auto auto;
 }
+
 #quiz-edit-form {
     margin-bottom: 100px;
 }
+
 .edit-question-div {
     display: grid;
-    margin:  20px;
+    margin: 20px;
 }
 
 .edit-quiz-container {
@@ -469,7 +477,8 @@ a {
     display: block;
     margin: 10px;
 }
-.quiz-edit-buttons{
+
+.quiz-edit-buttons {
     display: flex;
     flex-wrap: wrap;
 }
@@ -479,8 +488,9 @@ a {
     margin: 1px;
     font-weight: bold;
 }
+
 #errormsg-purple {
-    color: blueviolet!important;
+    color: blueviolet !important;
     margin: 1px;
     font-weight: bold;
 }
@@ -498,9 +508,18 @@ a {
 .login-link {
     color: blueviolet;
 }
+
 .login-button {
     margin: 10px auto;
 }
+
+.char-counter {
+    display: block;
+    text-align: right;
+    color: mediumpurple;
+    font-weight: bold;
+}
+
 .form-group {
     margin-bottom: 20px;
 }
@@ -514,47 +533,85 @@ a {
 
 /*result spage */
 
-#confetti {
-    z-index: -1;
-    position: absolute;
-    left: 0;
+#confetti-canvas {
+    position: fixed;
     top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 9999;
 }
-.result-div{
+
+#result-div {
+    width: fit-content;
+    text-align: center;
+    margin: 20px auto;
+    display: grid;
+    grid-template-columns: auto;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.results-btn-container {
+    width: fit-content;
+    margin: auto;
+}
+
+.leaderboard-div {
+    width: fit-content;
     text-align: center;
     margin: 20px auto;
 }
 
-.leaderboard-div{
+.leaderboard-table {
+    margin: 10px auto;
+    width: 100%;
+    max-width: 600px;
+    margin: 10px auto;
+    overflow-x: auto;
+    border: solid black 3px;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.result-div h1 {
     text-align: center;
-    margin: 20px auto;
+    margin-bottom: 10px;
 }
-.leaderboard-table{
-    margin: 10px auto ;
-    max-width: 80%;
-    border:solid black 3px;
-    border-radius:6px;
-    overflow:hidden;
+
+.result-div h2,
+.result-div h3,
+.result-div h4,
+.result-div p {
+    text-align: center;
 }
-td, th {
-    border-left:solid black 1px;
-    border-top:solid black 1px;
+
+td,
+th {
+    border-left: solid black 1px;
+    border-top: solid black 1px;
 }
+
 th {
     background-color: rgb(255, 234, 49) !important;
     border-top: none;
 }
-td:first-child, th:first-child {
-     border-left: none;
+
+td:first-child,
+th:first-child {
+    border-left: none;
 }
-td{
+
+td {
     color: blueviolet !important;
 }
-.table-highlight>td{
+
+.table-highlight>td {
     background-color: rgb(243, 217, 255) !important;
 }
 
-.yellow-text-sm{
-    color: rgb(255, 255, 241)!important;
+.yellow-text-sm {
+    color: rgb(255, 255, 241) !important;
     font-weight: bold;
 }

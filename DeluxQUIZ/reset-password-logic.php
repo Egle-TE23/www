@@ -16,7 +16,7 @@ if (!$user) {
 }
 
 $token = bin2hex(random_bytes(32));
-$expires = date("Y-m-d H:i:s", time() + 1800); // 30 min 
+$expires = date("Y-m-d H:i:s", (time() + 1800)); // 30 min 
 $stmt = $dbconn->prepare("UPDATE users SET reset_token = ?, reset_expires = ? WHERE id = ?");
 $stmt->execute([$token, $expires, $user['id']]);
 
@@ -29,7 +29,7 @@ sendMail(
     "Lol you forgot your password. Click here to reset it:\n$link"
 );
 
-$_SESSION['reset_msg'] = "A reset link was sent to ". $email .".";
+$_SESSION['reset_msg'] = "A reset link was sent to ". $email .". The link will expire in 30 minutes.";
 header("Location: reset-password.php");
 exit;
 ?>

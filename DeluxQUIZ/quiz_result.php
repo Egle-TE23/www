@@ -30,47 +30,48 @@ $leaderboard = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= htmlspecialchars($result['quiz_title']) ?></title>
     <?php include("scripts-links.php") ?>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script src="conffeti-script.js" defer></script>
 </head>
 
 <body>
     <?php include("header.php") ?>
 
-    <div class="result-div">
+    <div id="result-div">
 
         <h1><?= htmlspecialchars($result['quiz_title']) ?></h1>
-
-        <h2 style="font-size:1.5rem;">
-            <?= htmlspecialchars($result['username']) ?>
-        </h2>
-
-        <div id="quiz-result-div">
+        <div class="start-container" id="quiz-result-div">
 
             <h3>
-                Score:<?= $result['amount_correct'] ?>/<?= $result['total_questions'] ?>
+                Score: <?= $result['amount_correct'] ?> / <?= $result['total_questions'] ?>
             </h3>
-
+            <script>
+                const scorePercent = <?= $result['total_questions'] > 0 ? round(($result['amount_correct'] / $result['total_questions']) * 100) : 0 ?>;
+            </script>
+            
             <h4>
-                <?= $result['total_questions'] > 0? round(($result['amount_correct'] / $result['total_questions']) * 100): 0 ?>%
+                <?= $result['total_questions'] > 0 ? round(($result['amount_correct'] / $result['total_questions']) * 100) : 0 ?>%
             </h4>
 
             <p class="yellow-text-sm">
-                Time taken: <strong ><?= $result['time_taken'] ?></strong> seconds
+                Time taken: <strong><?= $result['time_taken'] ?></strong> seconds
             </p>
 
         </div>
+        <hr class="m-auto">
 
+        <?php include 'leaderboard.php'; ?>
+
+        <div class="text-center mt-4 results-btn-container">
+            <a href="main.php" class="btn btn-primary">Back to quizzes</a>
+            <a href=<?= "quiz_start.php?id=" . $quizId ?> class="btn btn-primary">Try again</a>
+        </div>
     </div>
 
-    <hr>
-
-    <?php include 'leaderboard.php'; ?>
-
-    <div class="text-center mt-4">
-        <a href="main.php" class="btn btn-primary">Back to quizzes</a>
-    </div>
-    <canvas id="confetti"></canvas>
+    <canvas id="confetti-canvas"></canvas>
 </body>
 
 </html>

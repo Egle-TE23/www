@@ -15,7 +15,6 @@ $user = $stmt->fetch(PDO::FETCH_ASSOC);
 // empty quiz 
 $stmt = $dbconn->prepare("INSERT INTO quizzes (title, description, owner_id)VALUES ('Untitled quiz', 'Quiz Description', ?)");
 $stmt->execute([$user['id']]);
-
 $quizId = $dbconn->lastInsertId();
 
 // empty question 

@@ -107,36 +107,66 @@ if (!empty($_POST['questions'])) {
         //media 
         $fileKey = 'media_' . $questionId;
 
-        if (!empty($_FILES[$fileKey]['name'])) {
+        $fileKey = 'media_' . $questionId;
+
+        if (isset($_FILES[$fileKey]) && $_FILES[$fileKey]['name'] !== '') {
+
+            $error = $_FILES[$fileKey]['error'];
+
+            if ($error !== UPLOAD_ERR_OK) {
+                switch ($error) {
+                    case UPLOAD_ERR_INI_SIZE:
+                    case UPLOAD_ERR_FORM_SIZE:
+                        $_SESSION['editError'] = "File too large for question $questionId. Max size is " . ini_get('upload_max_filesize');
+                        break;
+                    case UPLOAD_ERR_PARTIAL:
+                        $_SESSION['editError'] = "Upload was incomplete for question $questionId.";
+                        break;
+                    case UPLOAD_ERR_NO_FILE:
+                        $_SESSION['editError'] = "No file uploaded for question $questionId.";
+                        break;
+                    default:
+                        $_SESSION['editError'] = "Unknown upload error for question $questionId.";
+                }
+
+                header("Location: quiz_edit.php?id=$quizId");
+                exit;
+            }
+
+            $tmp = $_FILES[$fileKey]['tmp_name'];
+            if (!file_exists($tmp) || $tmp === '') {
+                $_SESSION['editError'] = "Temporary file missing for question $questionId. File may be too large.";
+                header("Location: quiz_edit.php?id=$quizId");
+                exit;
+            }
+
+            $mediaType = $questionData['media_type'] ?? null;
             $allowed = [
                 'image' => ['image/jpeg', 'image/png', 'image/webp'],
                 'video' => ['video/mp4', 'video/webm'],
                 'audio' => ['audio/mpeg', 'audio/ogg', 'audio/wav']
             ];
 
-            $mediaType = $questionData['media_type'] ?? null;
-            $tmp = $_FILES[$fileKey]['tmp_name'];
-
             if ($mediaType && isset($allowed[$mediaType])) {
-                $mime = mime_content_type($tmp);
-
-                if (in_array($mime, $allowed[$mediaType])) {
-
-                    $ext = pathinfo($_FILES[$fileKey]['name'], PATHINFO_EXTENSION);
-                    $dir = "uploads/quiz_$quizId/";
-
-                    if (!is_dir($dir)) {
-                        mkdir($dir, 0755, true);
-                    }
-
-                    $filename = "q{$questionId}." . $ext;
-                    $path = $dir . $filename;
-
-                    move_uploaded_file($tmp, $path);
-
-                    $stmt = $dbconn->prepare("UPDATE questions SET media_path = ? WHERE id = ?");
-                    $stmt->execute([$path, $questionId]);
+                $mime = mime_content_type($tmp); // now safe
+                if (!in_array($mime, $allowed[$mediaType])) {
+                    $_SESSION['editError'] = "Invalid file type for question $questionId.";
+                    header("Location: quiz_edit.php?id=$quizId");
+                    exit;
                 }
+
+                $ext = pathinfo($_FILES[$fileKey]['name'], PATHINFO_EXTENSION);
+                $dir = "uploads/quiz_$quizId/";
+                if (!is_dir($dir))
+                    mkdir($dir, 0755, true);
+
+                $filename = "q{$questionId}." . $ext;
+                $path = $dir . $filename;
+
+                move_uploaded_file($tmp, $path);
+
+                $stmt = $dbconn->prepare("UPDATE questions SET media_path = ? WHERE id = ?");
+                $stmt->execute([$path, $questionId]);
             }
         }
 

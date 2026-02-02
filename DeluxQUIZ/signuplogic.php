@@ -25,7 +25,7 @@ if (isset($_POST["password"])) {
         header("Location: signup.php");
         exit();
     }
-    if (strlen($user) > 50) {
+    if (strlen($pass) > 50) {
         $_SESSION["signupError"] = "Password cant be longer than 50 characters";
         header("Location: signup.php");
         exit();

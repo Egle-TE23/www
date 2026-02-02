@@ -52,9 +52,11 @@ function shorten($text, $maxLength = 100)
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= htmlspecialchars($quiz['title']) ?></title>
     <?php include("scripts-links.php") ?>
+    <script src="quiz-edit-script.js" defer></script>
 </head>
 
 <body>
+    
     <?php include("header.php") ?>
     <form id="quiz-edit-form" class="create-form" action="quiz_edit_logic.php" method="POST"
         enctype="multipart/form-data">
@@ -110,7 +112,8 @@ function shorten($text, $maxLength = 100)
                     </select>
 
                     <input type="file" class="form-control mb-3 media-input" data-question-id="<?= $question['id'] ?>"
-                        name="media_<?= $question['id'] ?>" accept="image/*,video/*,audio/*" disabled>
+                        name="media_<?= $question['id'] ?>" accept="image/*,video/*,audio/*" disabled
+                        data-max-size="2000000">
 
                     <!-- options -->
                     <input type="hidden" name="questions[<?= $question['id'] ?>][id]" value="<?= $question['id'] ?>">
@@ -118,15 +121,14 @@ function shorten($text, $maxLength = 100)
                     <input type="text" class="form-control mb-3" name="questions[<?= $question['id'] ?>][text]"
                         value="<?= htmlspecialchars($question['question_text']) ?>" placeholder="Question Text">
 
-
-                    <div class="quiz-options">
+                    <div class="quiz-options" id="options-<?= $question['id'] ?>">
                         <?php
                         $stmt = $dbconn->prepare("SELECT * FROM choices WHERE question_id = ?");
                         $stmt->execute([$question['id']]);
                         $choices = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         ?>
                         <?php foreach ($choices as $choice): ?>
-                            <div class="input-group m-2" style="width:95%;">
+                            <div class="input-group m-2 choice-row" style="width:95%;">
                                 <span class="input-group-text">
                                     <input type="radio" name="questions[<?= $question['id'] ?>][correct]"
                                         value="<?= $choice['id'] ?>" <?= $choice['is_correct'] ? 'checked' : '' ?>>
@@ -184,8 +186,20 @@ function shorten($text, $maxLength = 100)
     <form id="add-question" action="quiz_add_question.php" method="POST" class="d-none">
         <input type="hidden" name="quiz_id" value="<?= $quizId ?>">
     </form>
+<!-- file size validation script!!-->
+    <script>
+        document.querySelectorAll('input[type=file][data-max-size]').forEach(input => {
+            input.addEventListener('change', () => {
+                const file = input.files[0];
+                const maxSize = parseInt(input.dataset.maxSize, 10);
 
-
+                if (file && file.size > maxSize) {
+                    alert(`File too large! Maximum size is ${(maxSize / 1000000).toFixed(1)} MB.`);
+                    input.value = ''; // clear the input
+                }
+            });
+        });
+    </script>
 </body>
 
 </html>
